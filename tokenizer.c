@@ -6,25 +6,25 @@
 /*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:44:37 by parden            #+#    #+#             */
-/*   Updated: 2024/05/24 17:10:18 by parden           ###   ########.fr       */
+/*   Updated: 2024/05/24 18:47:16 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "printf.h"
 
-static void	*free_res(char **res)
+static int	free_token_strs(char **token_strs)
 {
 	size_t	i;
 
 	i = 0;
-	while (res[i])
+	while (token_strs[i])
 	{
-		free(res[i]);
+		free(token_strs[i]);
 		i++;
 	}
-	free(res);
-	return (NULL);
+	free(token_strs);
+	return (0);
 }
 
 static size_t	count_tokens(const char *s)
@@ -47,7 +47,7 @@ static size_t	count_tokens(const char *s)
 	return (count);
 }
 
-static size_t	insert_token(char **res, const char *s, size_t start)
+static size_t	insert_token(char **token_strs, const char *s, size_t start)
 {
 	size_t	len;
 	
@@ -55,25 +55,19 @@ static size_t	insert_token(char **res, const char *s, size_t start)
 	while (!is_in(s[start + len], SPECIFIERS);
 			len++;
 	len++;
-	*res = ft_substr(s, start, len);
-	if (!*res)
+	*token_strs = ft_substr(s, start, len);
+	if (!*token_strs)
 		return (0);
 	return (start + len);
 }
 
-char	**tokenizer(const char *s)
+static int	tokenizer(char **token_strs, const char *s)
 {
-	char	**res;
-	size_t	nb_tok;
 	size_t	i_s;
-	size_t	i_res;
+	size_t	i_token_strs;
 
-	nb_tok = count_tokens(s);
-	res = (char **)ft_calloc((nb_tok + 1) * sizeof(char *));
-	if (!res)
-		return (NULL);
 	i_s = 0;
-	i_res = 0;
+	i_token_strs = 0;
 	while (s[i_s])
 	{
 		while (s[i_s] && s[i_s] != '%')
@@ -82,11 +76,58 @@ char	**tokenizer(const char *s)
 			i_s += 2;
 		else if (s[i_s])
 		{
-			i_s = insert_token(res + i_res, s, i_s + 1);
+			i_s = insert_token(token_strs + i_token_strs, s, i_s + 1);
 			if (!i_s)
-				return (free_res(res));
-			i_res++;
+				return (free_token_strs(token_strs));
+			i_token_strs++;
 		}
 	}
-	return (res)
+	return (1)
 }
+
+static void	*free_token_list(char **token_strs, t_token **token_list)
+{
+	size_t	i;
+
+	free_token_strs(token_strs);
+	i = 0;
+	while (token_list[i])
+	{
+		free(token_list[i]);
+		i++;
+	}
+	free(token_list);
+	return (NULL);
+}
+
+t_token	*parse_one(char *token_str)
+{
+	//TODO
+}
+
+t_token	**parser(const char *s)
+{
+	size_t	nb_tok;
+	char	**token_strs;
+	t_token	**token_list;
+
+	nb_tok = count_tokens(s);
+	token_strs = (char **)ft_calloc((nb_tok + 1) * sizeof(char *));
+	if (!token_strs)
+		return (NULL);
+	if (!tokenizer(token_strs, s))
+		return (NULL);
+	token_list = (t_token **)malloc((nb_tok + 1) * sizeof(t_token *));
+	if (!token_list)
+		return ((void *)free_token_strs(token_strs));
+	while (token_strs[i])
+	{
+		token_list[i] = parse_one(token_strs[i]);
+		if (!token_list[i])
+			return (free_token_list(token_strs, token_list));
+		i++;
+	}
+	free_token_strs(token_strs);
+	return (token_list);
+}
+
