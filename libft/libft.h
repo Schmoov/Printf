@@ -6,7 +6,7 @@
 /*   By: parden <parden@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 12:42:49 by parden            #+#    #+#             */
-/*   Updated: 2024/05/22 16:52:50 by parden           ###   ########.fr       */
+/*   Updated: 2024/05/25 17:21:28 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ char	*ft_strnstr(const char *big, const char *little, size_t len);
 char	*ft_strrchr(const char *s, int c);
 void	*ft_calloc(size_t nelem, size_t elsize);
 char	*ft_strdup(const char *s);
+bool	is_in(const char c, const char *str);
 //stdlib
 int		ft_atoi(const char *nptr);
 char	*ft_itoa(int n);
