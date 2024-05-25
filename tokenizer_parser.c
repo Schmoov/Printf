@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizer.c                                        :+:      :+:    :+:   */
+/*   tokenizer_parser.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:44:37 by parden            #+#    #+#             */
-/*   Updated: 2024/05/25 16:18:01 by parden           ###   ########.fr       */
+/*   Updated: 2024/05/25 17:35:32 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "printf.h"
+#include "libft/libft.h"
+#include "ft_printf.h"
 
-static int	free_token_strs(char **token_strs)
+static size_t	free_token_strs(char **token_strs)
 {
 	size_t	i;
 
@@ -147,7 +147,6 @@ t_token	*parse_one(const char *token_str)
 	if (token_str[i] == '.' && ft_isdigit(token_str[i + 1]))
 		parsed_token->precision = ft_atoi(token_str + i + 1);
 	return (parsed_token);
-	}
 }
 
 t_token	**parser(const char *s)

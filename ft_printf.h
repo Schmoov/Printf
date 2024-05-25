@@ -1,5 +1,22 @@
-#define SPECIFIERS "cspdiuxX"
-#define FLAGS "0-+ #"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/25 17:30:15 by parden            #+#    #+#             */
+/*   Updated: 2024/05/25 17:34:26 by parden           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef FT_PRINTF_H
+# define FT_PRINTF_H
+
+# define SPECIFIERS "cspdiuxX"
+# define FLAGS "0-+ #"
+
+# include <stdlib.h>
 
 //pad can be /0 (right-justify), '-' (left-justify), or '0' (pad with zero)
 //sign can be ' ' (no plus sign) or '+' (yes plus sign)
@@ -13,4 +30,6 @@ typedef struct	s_token
 	char		prefix;
 	int			width;
 	int			precision;
-}				t_token
+}				t_token;
+
+#endif
