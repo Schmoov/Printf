@@ -6,7 +6,7 @@
 /*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:44:37 by parden            #+#    #+#             */
-/*   Updated: 2024/05/25 17:35:32 by parden           ###   ########.fr       */
+/*   Updated: 2024/05/25 18:22:50 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ static void	*free_token_list(char **token_strs, t_token **token_list)
 	return (NULL);
 }
 
-t_token	*new_token(const char *token_str, const char token_spec)
+static t_token	*new_token(const char *token_str, const char token_spec)
 {
 	t_token	*new;
 
@@ -117,7 +117,7 @@ t_token	*new_token(const char *token_str, const char token_spec)
 }
 
 
-t_token	*parse_one(const char *token_str)
+static t_token	*parse_one(const char *token_str)
 {
 	t_token *parsed_token;
 	size_t	token_len;
@@ -149,7 +149,7 @@ t_token	*parse_one(const char *token_str)
 	return (parsed_token);
 }
 
-t_token	**parser(const char *s)
+t_token	**parse(const char *s)
 {
 	size_t	nb_tok;
 	char	**token_strs;
