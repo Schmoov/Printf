@@ -6,7 +6,7 @@
 /*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:30:15 by parden            #+#    #+#             */
-/*   Updated: 2024/05/25 17:34:26 by parden           ###   ########.fr       */
+/*   Updated: 2024/05/26 12:18:06 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,9 @@ typedef struct	s_token
 	int			precision;
 }				t_token;
 
+size_t  free_token_strs(char **token_strs);
+size_t  count_tokens(const char *s);
+int  	tokenize(char **token_strs, const char *s);
+void    *free_token_list(char **token_strs, t_token **token_list);
+t_token **parse(const char *s);
 #endif

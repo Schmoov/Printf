@@ -22,8 +22,8 @@ ASAN_ENV := ASAN_OPTIONS=log_path=$(LOG_DIR):abort_on_error=1:allocator_may_retu
 all: libft.a test
 
 libft.a:
-	make -C ../libft_only bonus
-	cp ../libft_only/libft.a ./
+	make -C ../libft bonus
+	cp ../libft/libft.a ./
 
 test: $(OBJS) $(TSTS)
 
@@ -37,12 +37,13 @@ $(BIN_DIR)%.memtest.o: $(SRC_DIR)%.memtest.c
 
 $(TST_DIR)%.test: $(BIN_DIR)%.test.o
 	@ mkdir -p $(TST_DIR)
-	@ mkdir -p $(LOG_DIR)
 	$(CC) $(CFLAGS) $< libft.a $(CRIT) -lbsd -o $@
 	$(CRIT_ENV) ./$@
 
 $(TST_DIR)%.memtest: $(BIN_DIR)%.memtest.o
-	$(CC) $(CFLAGS) $(ASAN) $< libft.a $(CRIT) -lbsd -o $@
+	@ mkdir -p $(TST_DIR)
+	@ mkdir -p $(LOG_DIR)
+	$(CC) $(CFLAGS) $(ASAN) $< tokenizer.o libft.a $(CRIT) -lbsd -o $@
 	$(ASAN_ENV) $(CRIT_ENV) ./$@
 
 print-%  : ; @echo $* = $($*)
