@@ -6,7 +6,7 @@
 /*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:44:37 by parden            #+#    #+#             */
-/*   Updated: 2024/05/26 12:18:47 by parden           ###   ########.fr       */
+/*   Updated: 2024/05/28 14:23:26 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,10 @@ int	tokenize(char **token_strs, const char *s)
 	return (1);
 }
 
-void	*free_token_list(char **token_strs, t_token **token_list)
+void	*free_token_list(t_token **token_list)
 {
 	size_t	i;
 
-	free_token_strs(token_strs);
 	i = 0;
 	while (token_list[i])
 	{
@@ -170,7 +169,10 @@ t_token	**parse(const char *s)
 	{
 		token_list[i] = parse_one(token_strs[i]);
 		if (!token_list[i])
-			return (free_token_list(token_strs, token_list));
+		{
+			free_token_strs(token_strs);
+			return (free_token_list(token_list));
+		}
 		i++;
 	}
 	free_token_strs(token_strs);

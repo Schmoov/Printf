@@ -6,7 +6,7 @@
 /*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:30:15 by parden            #+#    #+#             */
-/*   Updated: 2024/05/26 12:18:06 by parden           ###   ########.fr       */
+/*   Updated: 2024/05/28 14:22:47 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@
 # include <stdlib.h>
 
 //pad can be /0 (right-justify), '-' (left-justify), or '0' (pad with zero)
+//->0>/0
 //sign can be ' ' (no plus sign) or '+' (yes plus sign)
+//+>' '
 //prefix can be /0 (no prefix) or '#' (yes prefix)
 //default precision is represented as -1
 typedef struct	s_token
@@ -35,6 +37,6 @@ typedef struct	s_token
 size_t  free_token_strs(char **token_strs);
 size_t  count_tokens(const char *s);
 int  	tokenize(char **token_strs, const char *s);
-void    *free_token_list(char **token_strs, t_token **token_list);
+void    *free_token_list(t_token **token_list);
 t_token **parse(const char *s);
 #endif
