@@ -6,14 +6,14 @@
 /*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:30:15 by parden            #+#    #+#             */
-/*   Updated: 2024/05/28 14:22:47 by parden           ###   ########.fr       */
+/*   Updated: 2024/05/28 15:47:17 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
 
-# define SPECIFIERS "cspdiuxX"
+# define SPECIFIERS "cspdiuxX%"
 # define FLAGS "0-+ #"
 
 # include <stdlib.h>

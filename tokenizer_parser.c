@@ -6,7 +6,7 @@
 /*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:44:37 by parden            #+#    #+#             */
-/*   Updated: 2024/05/28 14:23:26 by parden           ###   ########.fr       */
+/*   Updated: 2024/05/28 16:09:38 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,15 @@ size_t	count_tokens(const char *s)
 	{
 		while (s[i] && s[i] != '%')
 			i++;
-		if (s[i] && s[i + 1] != '%')
-			count++;
 		if (s[i])
-			i += 2;
+		{
+			count++;
+			i++;
+		}
+		while (s[i] && !is_in(s[i], SPECIFIERS))
+			i++;
+		if (s[i])
+			i++;
 	}
 	return (count);
 }
@@ -71,9 +76,7 @@ int	tokenize(char **token_strs, const char *s)
 	{
 		while (s[i_s] && s[i_s] != '%')
 			i_s++;
-		if (s[i_s] && s[i_s + 1] == '%')
-			i_s += 2;
-		else if (s[i_s])
+		if (s[i_s])
 		{
 			i_s = insert_token(token_strs + i_token_strs, s, i_s + 1);
 			if (!i_s)

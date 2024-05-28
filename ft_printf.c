@@ -6,7 +6,7 @@
 /*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:59:49 by parden            #+#    #+#             */
-/*   Updated: 2024/05/25 18:56:08 by parden           ###   ########.fr       */
+/*   Updated: 2024/05/28 15:50:54 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,24 +44,19 @@ int	ft_printf(const char *s, ...)
 			i_s++;
 			count++;
 		}
-		if (s[i_s] && s[i_s + 1] == '%')
-		{
-			ft_putchar_fd('%', 1);
-			i_s += 2;
-			count++;
-			continue;
-		}
 		if (!s[i_s])
 			break;
-		if (token_list[i_tok]->spec == 's' || token_list[i_tok]->spec == 'p')
+		if (token_list[i_tok]->spec == '%')
+			count +=put_percent_token(token_list[i_tok]);
+		else if (token_list[i_tok]->spec == 's' || token_list[i_tok]->spec == 'p')
 		{
 			void *p = va_arg(args, void *);
-			count += put_ptr_token(token_list[i_tok],n);
+			count += put_ptr_token(token_list[i_tok], p);
 		}
 		else
 		{
 			int n = va_arg(args, int);
-			count += put_int_token(token_list[i_tok],n);
+			count += put_int_token(token_list[i_tok], n);
 		}
 		while (!is_in(s[i_s], SPECIFIERS))
 			i_s++;
