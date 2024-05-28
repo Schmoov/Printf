@@ -37,13 +37,13 @@ $(BIN_DIR)%.memtest.o: $(SRC_DIR)%.memtest.c
 
 $(TST_DIR)%.test: $(BIN_DIR)%.test.o
 	@ mkdir -p $(TST_DIR)
-	$(CC) $(CFLAGS) $< libft.a $(CRIT) -lbsd -o $@
+	$(CC) $(CFLAGS) libft.a $< $(CRIT) -lbsd -o $@
 	$(CRIT_ENV) ./$@
 
 $(TST_DIR)%.memtest: $(BIN_DIR)%.memtest.o
 	@ mkdir -p $(TST_DIR)
 	@ mkdir -p $(LOG_DIR)
-	$(CC) $(CFLAGS) $(ASAN) $< tokenizer.o libft.a $(CRIT) -lbsd -o $@
+	$(CC) $(CFLAGS) $(ASAN) tokenizer.o libft.a $< $(CRIT) -lbsd -o $@
 	$(ASAN_ENV) $(CRIT_ENV) ./$@
 
 print-%  : ; @echo $* = $($*)
