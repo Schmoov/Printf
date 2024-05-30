@@ -6,7 +6,7 @@
 /*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 13:07:25 by parden            #+#    #+#             */
-/*   Updated: 2024/05/30 18:10:09 by parden           ###   ########.fr       */
+/*   Updated: 2024/05/30 18:23:45 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,14 @@ int	d_printer(t_token *tok, int n)
 	printed = itoa_base(n, BASE10, true);
 	if (!printed)
 		return (-1);
+	//precision doesnt count sign space
 	if (tok->precision >= 0 && tok->precision > ft_strlen(printed))
 	{
 		printed = pad_with_char(printed, tok->precision, '0', true);
 		if (!printed)
 			return (-1);
 	}
+	//need to treat '0' flag before the sign to not print "00-42"
 	if (tok->pad == '0' && tok->precision < 0)
 	{
 		if (n < 0 || tok->sign)
@@ -77,6 +79,7 @@ int	d_printer(t_token *tok, int n)
 				return (-1);
 		}
 	}
+	//can add sign now
 	if (n < 0)
 	{
 		printed = pad_with_char(printed, ft_strlen(printed) + 1, '-', true);
@@ -89,6 +92,7 @@ int	d_printer(t_token *tok, int n)
 		if (!printed)
 			return (-1);
 	}
+	//can add width for non '0' flags
 	if (tok->width > ft_strlen(printed))
 	{
 			printed = pad_with_char(printed, tok->width, ' ', !(tok->pad == '-'));
