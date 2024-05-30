@@ -6,7 +6,7 @@
 /*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:59:49 by parden            #+#    #+#             */
-/*   Updated: 2024/05/28 16:59:44 by parden           ###   ########.fr       */
+/*   Updated: 2024/05/29 13:21:43 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,33 @@ static int print_percent_block(char **s, t_token *tok)
 	return (count);
 }
 
-static int print_ptr_block(char **s, t_token *tok, void *p)
+char *itoa_base(int n, char *base, bool is_signed);
+
+static int dispatch_ptr_block(char **s, t_token *tok, void *p)
 {
 	//TODO
 }
+	
 
-static int print_int_block(char **s, t_token *tok, int n)
+static int dispatch_int_block(char **s, t_token *tok, int n)
 {
-	//TODO
+	int count;
+
+	count = print_str_litteral(s);
+	//cspiudxX
+	if (tok->spec == 'c')
+		return (count + print_ctok(s, tok, n);
+	if (tok->spec == 'i' || tok->spec == 'd')
+		return (count + print_dtok(s, tok, n);
+	if (tok->spec == 'u')
+		return (count + print_ctok(s, tok, n);
+	if (tok->spec == 'x')
+		return (count + print_ctok(s, tok, n);
+	if (tok->spec == 'X')
+		return (count + print_ctok(s, tok, n);
+	if (tok->spec == 'c')
+		return (count + print_ctok(s, tok, n);
+
 }
 
 int	ft_printf(const char *format, ...)
