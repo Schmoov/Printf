@@ -6,7 +6,7 @@
 /*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:59:49 by parden            #+#    #+#             */
-/*   Updated: 2024/05/29 13:21:43 by parden           ###   ########.fr       */
+/*   Updated: 2024/05/30 13:31:40 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int dispatch_ptr_block(char **s, t_token *tok, void *p)
 	//TODO
 }
 	
-
+typedef int (*printer)(t_token *tok, int n);
 static int dispatch_int_block(char **s, t_token *tok, int n)
 {
 	int count;

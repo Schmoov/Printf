@@ -6,7 +6,7 @@
 /*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:44:37 by parden            #+#    #+#             */
-/*   Updated: 2024/05/28 16:09:38 by parden           ###   ########.fr       */
+/*   Updated: 2024/05/30 14:51:21 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ static t_token	*new_token(const char token_spec)
 		return (NULL);
 	new->spec = token_spec;
 	new->pad = 0;
-	new->sign = ' ';
+	new->sign = 0;
 	new->prefix = 0;
 	new->width = 0;
 	new->precision = -1;
@@ -139,6 +139,8 @@ static t_token	*parse_one(const char *token_str)
 		if (token_str[i] == '0' && parsed_token->pad != '-')
 			parsed_token->pad = '0';
 		if (token_str[i] == '+')
+			parsed_token->sign = '+';
+		if (token_str[i] == ' ' && parsed_token->sign != '+')
 			parsed_token->sign = '+';
 		i++;
 	}
