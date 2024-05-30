@@ -6,7 +6,7 @@
 /*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 13:07:25 by parden            #+#    #+#             */
-/*   Updated: 2024/05/30 15:24:15 by parden           ###   ########.fr       */
+/*   Updated: 2024/05/30 17:25:17 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*pad_with_char(char *suffix, int output_len, char c, bool leftpad)
 	char	*prefix;
 	char	*res;
 
-	prefix = str_filled_with_char(precision - ft_strlen(suffix), c);
+	prefix = str_filled_with_char(output_len - ft_strlen(suffix), c);
 	if (!prefix)
 	{
 		free(suffix);
@@ -66,8 +66,22 @@ int	d_printer(t_token *tok, int n)
 		if (!printed)
 			return (-1);
 	}
+	if (n < 0)
+	{
+		printed = pad_with_char(printed, ft_strlen(printed) + 1, '-', true);
+		if (!printed)
+			return (-1);
+	}
+	else if (tok->sign)
+	{
+		printed = pad_with_char(printed, ft_strlen(printed) + 1, tok->sign, true);
+		if (!printed)
+			return (-1);
+	}
+	/*
 	if (tok->width && (n < 0 || tok->sign))
 		(tok->width)--;
+	*/
 	if (tok->width > ft_strlen(printed))
 	{
 		if (tok->pad == '0' && tok->precision < 0)
@@ -88,18 +102,6 @@ int	d_printer(t_token *tok, int n)
 			if (!printed)
 				return (-1);
 		}
-	}
-	if (n < 0)
-	{
-		printed = pad_with_char(printed, ft_strlen(printed) + 1, '-', true);
-		if (!printed)
-			return (-1);
-	}
-	else if (tok->sign)
-	{
-		printed = pad_with_char(printed, ft_strlen(printed) + 1, tok->sign, true);
-		if (!printed)
-			return (-1);
 	}
 	ret_value = ft_strlen(printed);
 	ft_putstr_fd(printed, 1);

@@ -6,7 +6,7 @@
 /*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:30:15 by parden            #+#    #+#             */
-/*   Updated: 2024/05/30 14:57:14 by parden           ###   ########.fr       */
+/*   Updated: 2024/05/30 17:07:07 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # define LOBASE16 "0123456789abcdef"
 
 # include <stdlib.h>
+# include <unistd.h>
+# include "libft/libft.h"
 
 //pad can be \0 (right-justify), '-' (left-justify), or '0' (pad with zero)
 //->0>/0
@@ -38,10 +40,16 @@ typedef struct	s_token
 	int			width;
 	int			precision;
 }				t_token;
-
 size_t  free_token_strs(char **token_strs);
 size_t  count_tokens(const char *s);
 int  	tokenize(char **token_strs, const char *s);
 void    *free_token_list(t_token **token_list);
+t_token *parse_one(const char *token_str);
 t_token **parse(const char *s);
+
+char    *itoa_base(int n, char *base, bool is_signed);
+char    *str_filled_with_char(int len, char c);
+char    *pad_with_char(char *suffix, int output_len, char c, bool leftpad);
+int		c_printer(t_token *tok, int n);
+int		d_printer(t_token *tok, int n);
 #endif

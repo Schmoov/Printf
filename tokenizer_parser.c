@@ -6,7 +6,7 @@
 /*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:44:37 by parden            #+#    #+#             */
-/*   Updated: 2024/05/30 14:51:21 by parden           ###   ########.fr       */
+/*   Updated: 2024/05/30 16:33:08 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ static size_t	insert_token(char **token_strs, const char *s, size_t start)
 	return (start + len);
 }
 
+//A token_str excludes '%' and includes the specifier
 int	tokenize(char **token_strs, const char *s)
 {
 	size_t	i_s;
@@ -119,7 +120,7 @@ static t_token	*new_token(const char token_spec)
 }
 
 
-static t_token	*parse_one(const char *token_str)
+t_token	*parse_one(const char *token_str)
 {
 	t_token *parsed_token;
 	size_t	token_len;
