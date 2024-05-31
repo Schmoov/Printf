@@ -34,9 +34,9 @@ print-%  : ; @echo $* = $($*)
 
 clean:
 	rm -rf $(OBJ_DIR)
+	rm -f $(BONUS_FLAG)
 
 fclean: clean
-	rm -f $(BONUS_FLAG)
 	rm -f $(NAME)
 
 re: fclean all
