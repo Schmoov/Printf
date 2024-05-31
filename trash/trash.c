@@ -2,8 +2,6 @@
 
 int main()
 {
-	printf("|%#.5x|\n",42);
-	printf("|%#0.5x|\n",42);
-	printf("|%#5x|\n",42);
-	printf("|%0#5x|\n",42);
+	int a =43;
+	printf("|%15p|\n|12345678901234|", (void *)&a);
 }

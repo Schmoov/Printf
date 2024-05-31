@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   xtostr.c                                           :+:      :+:    :+:   */
+/*   int_printers.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 13:07:25 by parden            #+#    #+#             */
-/*   Updated: 2024/05/31 14:19:34 by parden           ###   ########.fr       */
+/*   Updated: 2024/05/31 16:27:59 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int	c_printer(t_token *tok, int n)
 	if (tok->width > 1)
 		printed = pad_with_char(printed, tok->width - 1, ' ', !tok->pad);
 	ft_putstr_fd(printed, 1);
+	free(printed);
 	if (tok->width > 1)
 		return (tok->width);
 	return (1);
