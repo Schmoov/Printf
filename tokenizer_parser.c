@@ -6,12 +6,11 @@
 /*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:44:37 by parden            #+#    #+#             */
-/*   Updated: 2024/05/30 18:15:24 by parden           ###   ########.fr       */
+/*   Updated: 2024/05/31 14:05:26 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
-#include "ft_printf.h"
+#include "libftprintf.h"
 
 size_t	free_token_strs(char **token_strs)
 {

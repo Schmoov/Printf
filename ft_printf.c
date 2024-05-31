@@ -6,13 +6,11 @@
 /*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:59:49 by parden            #+#    #+#             */
-/*   Updated: 2024/05/30 13:31:40 by parden           ###   ########.fr       */
+/*   Updated: 2024/05/31 14:10:12 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
-#include "ft_printf.h"
-#include <stdarg.h>
+#include "libftprintf.h"
 
 static int print_str_litteral(char **s)
 {
@@ -26,7 +24,7 @@ static int print_str_litteral(char **s)
 	return (i);
 }
 
-static int print_percent_block(char **s, t_token *tok)
+int print_percent_block(char **s)
 {
 	int count;
 
@@ -39,7 +37,7 @@ static int print_percent_block(char **s, t_token *tok)
 	(*s)++;
 	return (count);
 }
-
+/*
 char *itoa_base(int n, char *base, bool is_signed);
 
 static int dispatch_ptr_block(char **s, t_token *tok, void *p)
@@ -48,6 +46,7 @@ static int dispatch_ptr_block(char **s, t_token *tok, void *p)
 }
 	
 typedef int (*printer)(t_token *tok, int n);
+
 static int dispatch_int_block(char **s, t_token *tok, int n)
 {
 	int count;
@@ -96,3 +95,4 @@ int	ft_printf(const char *format, ...)
 	va_end(args);
 	return (count);
 }
+*/

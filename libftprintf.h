@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   libftprintf.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:30:15 by parden            #+#    #+#             */
-/*   Updated: 2024/05/30 17:07:07 by parden           ###   ########.fr       */
+/*   Updated: 2024/05/31 14:06:38 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+#ifndef LIBFTPRINTF_H
+# define LIBFTPRINTF_H
 
 # define SPECIFIERS "cspdiuxX%"
 # define FLAGS "0-+ #"
@@ -22,6 +22,7 @@
 
 # include <stdlib.h>
 # include <unistd.h>
+# include <stdarg.h>
 # include "libft/libft.h"
 
 //pad can be \0 (right-justify), '-' (left-justify), or '0' (pad with zero)

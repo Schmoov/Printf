@@ -6,13 +6,11 @@
 /*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 13:07:25 by parden            #+#    #+#             */
-/*   Updated: 2024/05/30 20:29:45 by parden           ###   ########.fr       */
+/*   Updated: 2024/05/31 14:19:34 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include "libft/libft.h"
-#include "ft_printf.h"
+#include "libftprintf.h"
 
 char	*str_filled_with_char(int len, char c)
 {
@@ -49,7 +47,6 @@ char	*pad_with_char(char *suffix, int output_len, char c, bool leftpad)
 int	c_printer(t_token *tok, int n)
 {
 	char	*printed;
-	int		ret_value;
 
 	printed = malloc(2);
 	printed[0] = (unsigned char)n;
@@ -71,7 +68,7 @@ int	d_printer(t_token *tok, int n)
 	if (!printed)
 		return (-1);
 	//precision doesnt count sign space
-	if (tok->precision >= 0 && tok->precision > ft_strlen(printed))
+	if (tok->precision >= 0 && (size_t)tok->precision > ft_strlen(printed))
 	{
 		printed = pad_with_char(printed, tok->precision, '0', true);
 		if (!printed)
@@ -82,7 +79,7 @@ int	d_printer(t_token *tok, int n)
 	{
 		if (n < 0 || tok->sign)
 			(tok->width)--;
-		if (tok->width > ft_strlen(printed))
+		if (tok->width >= 0 && (size_t)tok->width > ft_strlen(printed))
 		{
 			printed = pad_with_char(printed, tok->width, '0', true);
 			if (!printed)
@@ -103,7 +100,7 @@ int	d_printer(t_token *tok, int n)
 			return (-1);
 	}
 	//can add width for non '0' flags
-	if (tok->width > ft_strlen(printed))
+	if (tok->width >= 0 && (size_t)tok->width > ft_strlen(printed))
 	{
 			printed = pad_with_char(printed, tok->width, ' ', !(tok->pad == '-'));
 			if (!printed)
@@ -123,13 +120,13 @@ int	u_printer(t_token *tok, int n)
 	printed = itoa_base(n, BASE10, false);
 	if (!printed)
 		return (-1);
-	if (tok->precision >= 0 && tok->precision > ft_strlen(printed))
+	if (tok->precision >= 0 && (size_t)tok->precision > ft_strlen(printed))
 	{
 		printed = pad_with_char(printed, tok->precision, '0', true);
 		if (!printed)
 			return (-1);
 	}
-	if (tok->width > ft_strlen(printed))
+	if (tok->width >= 0 && (size_t)tok->width > ft_strlen(printed))
 	{
 		if (tok->pad == '0' && tok->precision < 0)
 		{
@@ -167,7 +164,7 @@ int	xlo_printer(t_token *tok, int n)
 	printed = itoa_base(n, LOBASE16, false);
 	if (!printed)
 		return (-1);
-	if (tok->precision >= 0 && tok->precision > ft_strlen(printed))
+	if (tok->precision >= 0 && (size_t)tok->precision > ft_strlen(printed))
 	{
 		printed = pad_with_char(printed, tok->precision, '0', true);
 		if (!printed)
@@ -178,7 +175,7 @@ int	xlo_printer(t_token *tok, int n)
 	{
 		if (tok->prefix)
 			(tok->width) -= 2;
-		if (tok->width > ft_strlen(printed))
+		if (tok->width >= 0 && (size_t)tok->width > ft_strlen(printed))
 		{
 			printed = pad_with_char(printed, tok->width, '0', true);
 			if (!printed)
@@ -191,7 +188,7 @@ int	xlo_printer(t_token *tok, int n)
 		if (!printed)
 			return (-1);
 	}
-	if (tok->width > ft_strlen(printed))
+	if (tok->width >= 0 && (size_t)tok->width > ft_strlen(printed))
 	{
 		printed = pad_with_char(printed, tok->width, ' ', !(tok->pad == '-'));
 		if (!printed)
@@ -210,7 +207,7 @@ int	xup_printer(t_token *tok, int n)
 	printed = itoa_base(n, UPBASE16, false);
 	if (!printed)
 		return (-1);
-	if (tok->precision >= 0 && tok->precision > ft_strlen(printed))
+	if (tok->precision >= 0 && (size_t)tok->precision > ft_strlen(printed))
 	{
 		printed = pad_with_char(printed, tok->precision, '0', true);
 		if (!printed)
@@ -221,7 +218,7 @@ int	xup_printer(t_token *tok, int n)
 	{
 		if (tok->prefix)
 			(tok->width) -= 2;
-		if (tok->width > ft_strlen(printed))
+		if (tok->width >= 0 && (size_t)tok->width > ft_strlen(printed))
 		{
 			printed = pad_with_char(printed, tok->width, '0', true);
 			if (!printed)
@@ -234,7 +231,7 @@ int	xup_printer(t_token *tok, int n)
 		if (!printed)
 			return (-1);
 	}
-	if (tok->width > ft_strlen(printed))
+	if (tok->width >= 0 && (size_t)tok->width > ft_strlen(printed))
 	{
 		printed = pad_with_char(printed, tok->width, ' ', !(tok->pad == '-'));
 		if (!printed)

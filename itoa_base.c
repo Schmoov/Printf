@@ -6,17 +6,15 @@
 /*   By: parden <parden@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 10:40:38 by parden            #+#    #+#             */
-/*   Updated: 2024/05/30 17:21:46 by parden           ###   ########.fr       */
+/*   Updated: 2024/05/31 14:11:41 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include "libft/libft.h"
-#include "ft_printf.h"
+#include "libftprintf.h"
 
 //Output string will NOT have '-' character !!!
 //for n == 0 output is ""
-static size_t	count_char(long long n, char *base, size_t lbase)
+static size_t	count_char(long long n, size_t lbase)
 {
 	size_t	count;
 
@@ -36,7 +34,7 @@ static char	*wrap_itoa_base(long long n, char *base)
 	size_t	lbase;
 
 	lbase = ft_strlen((const char *)base);
-	len = count_char(n, base, lbase);
+	len = count_char(n, lbase);
 	res = (char *)malloc((len + 1) * sizeof(char));
 	if (!res)
 		return (NULL);

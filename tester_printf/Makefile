@@ -4,6 +4,13 @@ CFLAGS := -Wall -Wextra -Werror
 SRC_DIR := src/
 SRCS := $(wildcard $(SRC_DIR)*.c)
 
+LIBFT := ../libft/libft.a
+LIBPRINTF := ../libftprintf.a
+MY_LIBS := $(LIBPRINTF) $(LIBFT)
+
+INCS := ../libftprintf.h ../libft/libft.h
+
+
 BIN_DIR := .bin/
 OBJS := $(patsubst $(SRC_DIR)%.c, $(BIN_DIR)%.o, $(SRCS))
 
@@ -19,31 +26,33 @@ ASAN_ENV := ASAN_OPTIONS=log_path=$(LOG_DIR):abort_on_error=1:allocator_may_retu
 
 ###############################################################################
 
-all: libft.a test
+all: test
 
-libft.a:
-	make -C ../libft bonus
-	cp ../libft/libft.a ./
+$(LIBFT):
+	make -C ../libft
 
-test: $(OBJS) $(TSTS)
+$(LIBPRINTF):
+	make -C ../
 
-$(BIN_DIR)%.test.o: $(SRC_DIR)%.test.c
+test: $(MY_LIBS) $(OBJS) $(TSTS)
+
+$(BIN_DIR)%.test.o: $(SRC_DIR)%.test.c $(INCS)
 	@ mkdir -p $(BIN_DIR)
 	$(CC) $(CFLAGS) -I ./ -c $< -o $@
 
-$(BIN_DIR)%.memtest.o: $(SRC_DIR)%.memtest.c
+$(BIN_DIR)%.memtest.o: $(SRC_DIR)%.memtest.c $(INCS)
 	@ mkdir -p $(BIN_DIR)
 	$(CC) $(CFLAGS) $(ASAN) -I ./ -c $< -o $@
 
 $(TST_DIR)%.test: $(BIN_DIR)%.test.o
 	@ mkdir -p $(TST_DIR)
-	$(CC) $(CFLAGS) libft.a $< $(CRIT) -lbsd -o $@
+	$(CC) $(CFLAGS) $< $(MY_LIBS) $(CRIT) -lbsd -o $@
 	$(CRIT_ENV) ./$@
 
 $(TST_DIR)%.memtest: $(BIN_DIR)%.memtest.o
 	@ mkdir -p $(TST_DIR)
 	@ mkdir -p $(LOG_DIR)
-	$(CC) $(CFLAGS) $(ASAN) tokenizer.o libft.a $< $(CRIT) -lbsd -o $@
+	$(CC) $(CFLAGS) $(ASAN) $< $(MY_LIBS) $(CRIT) -lbsd -o $@
 	$(ASAN_ENV) $(CRIT_ENV) ./$@
 
 print-%  : ; @echo $* = $($*)
