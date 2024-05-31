@@ -33,7 +33,7 @@ fclean: clean
 re: fclean all
 
 rfclean : fclean
-	make -C libft fclean
+	make -C libft rfclean
 	make -C tester_printf fclean
 
 .PHONY: all clean fclean re rfclean
