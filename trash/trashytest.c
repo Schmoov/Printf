@@ -1,15 +1,16 @@
 #include <stdio.h>
 #include "../libftprintf.h"
-
+int ft_printf(const char *format, ...);
 int	main()
 {
 	int a = 42;
-	printf("\n\n|%p|\nVS\n",(void *)&a);
-	ft_putchar_fd('|',1);
-	p_printer(parse_one("p"),(void *)&a);
-	printf("|\n");
+	int exp;
+	int res;
+	exp = printf("\n|int :% 5d addr :%p|\n",a,(void *)&a);
+	printf("VS");
+	res = ft_printf("\n|int :% 5d addr :%p|\n",a,(void *)&a);
 
-	printf("->%d<-\n",printf("%14p",NULL));
+	printf("%d VS %d\n",exp,res);
 
 /*
 	printf("\n\n|%0-12.5u|\nVS\n",42);

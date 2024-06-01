@@ -6,13 +6,25 @@
 /*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:59:49 by parden            #+#    #+#             */
-/*   Updated: 2024/05/31 14:10:12 by parden           ###   ########.fr       */
+/*   Updated: 2024/06/01 13:44:32 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libftprintf.h"
+#include <stdarg.h>
 
-static int print_str_litteral(char **s)
+void	skip_past_token(char **s)
+{
+	if (!**s)
+		return;
+	(*s)++;
+	while (**s && !is_in(**s, SPECIFIERS))
+		(*s)++;
+	if(**s)
+		(*s)++;
+}
+
+static int print_until_percent(char **s)
 {
 	int	i;
 
@@ -21,51 +33,35 @@ static int print_str_litteral(char **s)
 		i++;
 	write(1, *s, i);
 	*s = *s + i;
+	skip_past_token(s);
 	return (i);
 }
 
-int print_percent_block(char **s)
+int percent_printer(void)
 {
-	int count;
-
-	count = print_str_litteral(s);
 	write(1, "%", 1);
-	count++;
-	(*s)++;
-	while (**s && !is_in(**s, SPECIFIERS))
-		(*s)++;
-	(*s)++;
-	return (count);
+	return (1);
 }
-/*
-char *itoa_base(int n, char *base, bool is_signed);
 
-static int dispatch_ptr_block(char **s, t_token *tok, void *p)
+static int ptr_dispatcher(t_token *tok, void *p)
 {
-	//TODO
+	if (tok->spec == 's')
+		return (s_printer(tok, p));
+	return (p_printer(tok, p));
 }
 	
-typedef int (*printer)(t_token *tok, int n);
 
-static int dispatch_int_block(char **s, t_token *tok, int n)
+static int int_dispatcher(t_token *tok, int n)
 {
-	int count;
-
-	count = print_str_litteral(s);
-	//cspiudxX
-	if (tok->spec == 'c')
-		return (count + print_ctok(s, tok, n);
 	if (tok->spec == 'i' || tok->spec == 'd')
-		return (count + print_dtok(s, tok, n);
+		return (d_printer(tok, n));
 	if (tok->spec == 'u')
-		return (count + print_ctok(s, tok, n);
+		return (u_printer(tok, n));
 	if (tok->spec == 'x')
-		return (count + print_ctok(s, tok, n);
+		return (xlo_printer(tok, n));
 	if (tok->spec == 'X')
-		return (count + print_ctok(s, tok, n);
-	if (tok->spec == 'c')
-		return (count + print_ctok(s, tok, n);
-
+		return (xup_printer(tok, n));
+	return (c_printer(tok, n));
 }
 
 int	ft_printf(const char *format, ...)
@@ -83,16 +79,17 @@ int	ft_printf(const char *format, ...)
 	token_list = parse(format);
 	while (token_list[i])
 	{
+		count += print_until_percent(&s);
 		if (token_list[i]->spec == '%')
-			count += print_percent_block(&s, *token_list);
+			count += percent_printer();
 		else if (token_list[i]->spec == 's' || token_list[i]->spec == 'p')
-			count += print_ptr_block(&s, *token_list, va_args(args, void *));
+			count += ptr_dispatcher(*token_list, va_arg(args, void *));
 		else
-			count += print_int_block(&s, *token_list, va_args(args, int));
+			count += int_dispatcher(*token_list, va_arg(args, int));
 		i++;
 	}
-	count += print_str_litteral(&s);
+	count += print_until_percent(&s);
+	free_token_list(token_list);
 	va_end(args);
 	return (count);
 }
-*/

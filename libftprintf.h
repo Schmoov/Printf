@@ -6,7 +6,7 @@
 /*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:30:15 by parden            #+#    #+#             */
-/*   Updated: 2024/05/31 16:56:37 by parden           ###   ########.fr       */
+/*   Updated: 2024/06/01 13:36:06 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,10 @@ char    *pad_with_char(char *suffix, int output_len, char c, bool leftpad);
 char	*add_prefix(char *suffix, char *prefix);
 int		c_printer(t_token *tok, int n);
 int		d_printer(t_token *tok, int n);
+int		u_printer(t_token *tok, int n);
+int		xlo_printer(t_token *tok, int n);
+int		xup_printer(t_token *tok, int n);
 int		s_printer(t_token *tok, void *p);
 int		p_printer(t_token *tok, void *p);
+int		ft_printf(const char *format, ...);
 #endif
