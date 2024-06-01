@@ -6,7 +6,7 @@
 /*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:59:49 by parden            #+#    #+#             */
-/*   Updated: 2024/06/01 13:44:32 by parden           ###   ########.fr       */
+/*   Updated: 2024/06/01 17:42:58 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,9 @@ int	ft_printf(const char *format, ...)
 		if (token_list[i]->spec == '%')
 			count += percent_printer();
 		else if (token_list[i]->spec == 's' || token_list[i]->spec == 'p')
-			count += ptr_dispatcher(*token_list, va_arg(args, void *));
+			count += ptr_dispatcher(token_list[i], va_arg(args, void *));
 		else
-			count += int_dispatcher(*token_list, va_arg(args, int));
+			count += int_dispatcher(token_list[i], va_arg(args, int));
 		i++;
 	}
 	count += print_until_percent(&s);

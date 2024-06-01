@@ -6,7 +6,7 @@
 /*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 13:07:25 by parden            #+#    #+#             */
-/*   Updated: 2024/05/31 16:27:59 by parden           ###   ########.fr       */
+/*   Updated: 2024/06/01 20:01:39 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	c_printer(t_token *tok, int n)
 	printed[0] = (unsigned char)n;
 	printed[1] = 0;
 	if (tok->width > 1)
-		printed = pad_with_char(printed, tok->width - 1, ' ', !tok->pad);
+		printed = pad_with_char(printed, tok->width, ' ', !tok->pad);
 	ft_putstr_fd(printed, 1);
 	free(printed);
 	if (tok->width > 1)
@@ -68,6 +68,14 @@ int	d_printer(t_token *tok, int n)
 	printed = itoa_base(n, BASE10, true);
 	if (!printed)
 		return (-1);
+	//Dealing with n == 0 default precision
+	if (tok->precision == -1 && !n)
+	{
+		free(printed);
+		printed = ft_strdup("0");
+		if (!printed)
+			return (-1);
+	}
 	//precision doesnt count sign space
 	if (tok->precision >= 0 && (size_t)tok->precision > ft_strlen(printed))
 	{
@@ -121,6 +129,13 @@ int	u_printer(t_token *tok, int n)
 	printed = itoa_base(n, BASE10, false);
 	if (!printed)
 		return (-1);
+	if (tok->precision == -1 && !n)
+	{
+		free(printed);
+		printed = ft_strdup("0");
+		if (!printed)
+			return (-1);
+	}
 	if (tok->precision >= 0 && (size_t)tok->precision > ft_strlen(printed))
 	{
 		printed = pad_with_char(printed, tok->precision, '0', true);
@@ -165,6 +180,13 @@ int	xlo_printer(t_token *tok, int n)
 	printed = itoa_base(n, LOBASE16, false);
 	if (!printed)
 		return (-1);
+	if (tok->precision == -1 && !n)
+	{
+		free(printed);
+		printed = ft_strdup("0");
+		if (!printed)
+			return (-1);
+	}
 	if (tok->precision >= 0 && (size_t)tok->precision > ft_strlen(printed))
 	{
 		printed = pad_with_char(printed, tok->precision, '0', true);
@@ -183,7 +205,7 @@ int	xlo_printer(t_token *tok, int n)
 				return (-1);
 		}
 	}
-	if (tok->prefix)
+	if (tok->prefix && n)
 	{
 		printed = add_prefix(printed, "0x");
 		if (!printed)
@@ -208,6 +230,13 @@ int	xup_printer(t_token *tok, int n)
 	printed = itoa_base(n, UPBASE16, false);
 	if (!printed)
 		return (-1);
+	if (tok->precision == -1 && !n)
+	{
+		free(printed);
+		printed = ft_strdup("0");
+		if (!printed)
+			return (-1);
+	}
 	if (tok->precision >= 0 && (size_t)tok->precision > ft_strlen(printed))
 	{
 		printed = pad_with_char(printed, tok->precision, '0', true);
@@ -226,7 +255,7 @@ int	xup_printer(t_token *tok, int n)
 				return (-1);
 		}
 	}
-	if (tok->prefix)
+	if (tok->prefix && n)
 	{
 		printed = add_prefix(printed, "0X");
 		if (!printed)

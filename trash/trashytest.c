@@ -6,11 +6,10 @@ int	main()
 	int a = 42;
 	int exp;
 	int res;
-	exp = printf("\n|int :% 5d addr :%p|\n",a,(void *)&a);
-	printf("VS");
-	res = ft_printf("\n|int :% 5d addr :%p|\n",a,(void *)&a);
-
-	printf("%d VS %d\n",exp,res);
+	char *str = "%-7c%.3s%#0 -+12.7% %014p% 4d%++ +i|%u|%#x|%--00-0--07X";
+	res = ft_printf(str,'q',"WANNACRY",&res,INT_MAX,3958496,0,0,4969964);
+	printf("\n");
+	printf(str,'q',"WANNACRY",&res,INT_MAX,3958496,0,0,4969964);
 
 /*
 	printf("\n\n|%0-12.5u|\nVS\n",42);
