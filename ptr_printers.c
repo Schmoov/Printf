@@ -6,7 +6,7 @@
 /*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 16:05:52 by parden            #+#    #+#             */
-/*   Updated: 2024/05/31 17:05:42 by parden           ###   ########.fr       */
+/*   Updated: 2024/06/03 16:20:08 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@ int	s_printer(t_token *tok, void *p)
 	char	*printed;
 	int		ret_value;
 
-	printed = ft_strdup((char *)p);
+	if (p)
+		printed = ft_strdup((char *)p);
+	else
+		printed = ft_strdup("(null)");
 	if (!printed)
 		return (-1);
 	if (tok->precision >= 0)

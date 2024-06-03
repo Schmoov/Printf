@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include "../libftprintf.h"
 
-
 Test(metatest, a)
 {
 	cr_redirect_stdout();
@@ -145,13 +144,42 @@ Test(printing, all_dspec_flag_edge_cases)
 	char *str = "zeroes|%.d|%.0d|%.1d|"
 		"sign position for negative|%7.3d|%7d|%.7d|%07d|%07.3d|"
 		"positives|%+7.3d|%+7d|%+.7d|%+07d|%+07.3d|"
-		"left-justif|%7.3d|%7d|%.7d|%07d|%07.3d|%+7.3d|%+7d|%+.7d|%+07d|%+07.3d|";
+		"left-justif|%-7.3d|%-7d|%-.7d|%-07d|%-07.3d|%-+7.3d|%-+7d|%-+.7d|%-+07d|%-+07.3d|";
 	char buffer[5000];
 
 	cr_redirect_stdout();
 	res = ft_printf(str,0,0,0,-1,-1,-1,-1,-1,1,1,1,1,1,-1,-1,-1,-1,-1,1,1,1,1,1);
 	fflush(stdout);
 	exp_res = sprintf(buffer,str,0,0,0,-1,-1,-1,-1,-1,1,1,1,1,1,-1,-1,-1,-1,-1,1,1,1,1,1);
+	cr_expect_stdout_eq_str(buffer);
+	cr_expect_eq(res, exp_res);
+}
+
+Test(printing, francinette_print_NUL_char)
+{
+	int res = -69;
+	char *str = "| %c %c %c | %c %c %c | %c %c %c |";
+
+	cr_redirect_stdout();
+	res = ft_printf(str,'0',0,'1','2','1',0,0,'1','2');
+	fflush(stdout);
+	FILE *expected_output = fopen("src/francinette_cspec.txt", "r");
+	cr_expect_stdout_eq(expected_output);
+	fclose(expected_output);
+	cr_expect_eq(res, 25);
+}
+
+Test(printing, francinette_str_NULL)
+{
+	int res = -69;
+	int exp_res;
+	char *str = "Cest 100%% UB mais bon :%s";
+	char buffer[100];
+
+	cr_redirect_stdout();
+	res = ft_printf(str, (char *)0);
+	fflush(stdout);
+	exp_res = sprintf(buffer,str, (char *)0);
 	cr_expect_stdout_eq_str(buffer);
 	cr_expect_eq(res, exp_res);
 }

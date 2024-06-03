@@ -6,7 +6,7 @@
 /*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 13:07:25 by parden            #+#    #+#             */
-/*   Updated: 2024/06/01 20:01:39 by parden           ###   ########.fr       */
+/*   Updated: 2024/06/03 15:37:47 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,18 +46,23 @@ char	*pad_with_char(char *suffix, int output_len, char c, bool leftpad)
 
 int	c_printer(t_token *tok, int n)
 {
-	char	*printed;
+	int count;
 
-	printed = malloc(2);
-	printed[0] = (unsigned char)n;
-	printed[1] = 0;
-	if (tok->width > 1)
-		printed = pad_with_char(printed, tok->width, ' ', !tok->pad);
-	ft_putstr_fd(printed, 1);
-	free(printed);
-	if (tok->width > 1)
-		return (tok->width);
-	return (1);
+	count = 1;
+	while (tok->pad != '-' && tok->width > 1)
+	{
+		ft_putchar_fd(' ', 1);
+		tok->width--;
+		count++;
+	}
+	ft_putchar_fd((unsigned char)n, 1);
+	while (tok->pad == '-' && tok->width > 1)
+	{
+		ft_putchar_fd(' ', 1);
+		tok->width--;
+		count++;
+	}
+	return (count);
 }
 
 int	d_printer(t_token *tok, int n)
