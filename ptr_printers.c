@@ -6,7 +6,7 @@
 /*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 16:05:52 by parden            #+#    #+#             */
-/*   Updated: 2024/06/03 16:20:08 by parden           ###   ########.fr       */
+/*   Updated: 2024/06/03 17:33:50 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,13 @@ int	s_printer(t_token *tok, void *p)
 
 	if (p)
 		printed = ft_strdup((char *)p);
-	else
+	else if (tok->precision > 5 || tok->precision == -1)
 		printed = ft_strdup("(null)");
+	else
+		printed = ft_strdup("");
 	if (!printed)
 		return (-1);
-	if (tok->precision >= 0)
+	if (p && tok->precision >= 0)
 		cap_strlen(printed, tok->precision);
 	if (tok->width >= 0 && (size_t)tok->width > ft_strlen(printed))
 	{
