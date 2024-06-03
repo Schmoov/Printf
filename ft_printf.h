@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libftprintf.h                                      :+:      :+:    :+:   */
+/*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:30:15 by parden            #+#    #+#             */
-/*   Updated: 2024/06/01 13:36:06 by parden           ###   ########.fr       */
+/*   Updated: 2024/06/03 18:50:05 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFTPRINTF_H
-# define LIBFTPRINTF_H
+#ifndef FT_PRINTF_H
+# define FT_PRINTF_H
 
 # define SPECIFIERS "cspdiuxX%"
 # define FLAGS "0-+ #"
@@ -31,14 +31,15 @@
 //+>' '>\0
 //prefix can be \0 (no prefix) or '#' (yes prefix)
 //default width is 0
-//default precision is -1
 typedef struct	s_token
 {
 	char		spec;
-	char		pad;
+	bool		minus_flag;
+	bool		zero_flag;
 	char		sign;
-	char		prefix;
+	bool		prefix;
 	int			width;
+	bool		has_prec;
 	int			precision;
 }				t_token;
 size_t  free_token_strs(char **token_strs);

@@ -6,7 +6,7 @@
 /*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 13:07:25 by parden            #+#    #+#             */
-/*   Updated: 2024/06/03 15:37:47 by parden           ###   ########.fr       */
+/*   Updated: 2024/06/03 18:49:59 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,13 @@ char	*str_filled_with_char(int len, char c)
 	return (res);
 }
 
-char	*pad_with_char(char *suffix, int output_len, char c, bool leftpad)
+char	*pad_with_char(char **printed, int output_len, char c, bool leftpad)
 {
 	char	*prefix;
 	char	*res;
 
+	if (!suffix)
+		return (NULL);
 	prefix = str_filled_with_char(output_len - ft_strlen(suffix), c);
 	if (!prefix)
 	{
@@ -49,14 +51,14 @@ int	c_printer(t_token *tok, int n)
 	int count;
 
 	count = 1;
-	while (tok->pad != '-' && tok->width > 1)
+	while (!tok->minus_flag && tok->width > 1)
 	{
 		ft_putchar_fd(' ', 1);
 		tok->width--;
 		count++;
 	}
 	ft_putchar_fd((unsigned char)n, 1);
-	while (tok->pad == '-' && tok->width > 1)
+	while (tok->minus_flag && tok->width > 1)
 	{
 		ft_putchar_fd(' ', 1);
 		tok->width--;
@@ -65,16 +67,73 @@ int	c_printer(t_token *tok, int n)
 	return (count);
 }
 
+char	*add_int_precision(char *printed, t_token *tok)
+{
+	if (tok->has_prec && (size_t)tok->precision > ft_strlen(printed))
+		return (pad_with_char(printed, tok->precision, '0', true));
+}
+
+char	*add_zero_flag(char *printed, t_token *tok)
+{
+	if (tok->zero_flag)
+	{
+		if (tok->sign)
+			(tok->width)--;
+		if (tok->width >= 0 && (size_t)tok->width > ft_strlen(printed))
+			printed = pad_with_char(printed, tok->width, '0', true);
+	}
+	return (printed);
+}
+
+char	*add_sign(char *printed, t_token *tok)
+{
+	if (tok->sign)
+		printed = pad_with_char(printed, ft_strlen(printed) + 1, tok->sign, true);
+	return (printed);
+}
+
+char	*add_width_blanks(char *printed, t_token *tok)
+{
+	if (!tok->zero_flag && tok->width >= 0 && (size_t)tok->width > ft_strlen(printed))
+		printed = pad_with_char(printed, tok->width, ' ', !(tok->minus_flag));
+	return (printed);
+}
+
 int	d_printer(t_token *tok, int n)
 {
 	char	*printed;
 	int		ret_value;
 
+	if (n < 0)
+		tok->sign = '-';
+	if (!n && !tok->precision)
+		printed = ft_strdup("");
+	else
+		printed = itoa_base(n, BASE10, true);
+	add_precision_zeroes(&printed, tok);
+	add_width_zeroes(&printed, tok);
+	add_sign(&printed, tok);
+	add_width_blanks(&printed, tok);
+	if (!printed)
+		return (-1);
+	ret_value = ft_strlen(printed);
+	ft_putstr_fd(printed, 1);
+	free(printed);
+	return (ret_value);
+}
+
+int	d_printer(t_token *tok, int n)
+{
+	char	*printed;
+	int		ret_value;
+
+	if (n < 0)
+		tok->sign = '-';
 	printed = itoa_base(n, BASE10, true);
 	if (!printed)
 		return (-1);
 	//Dealing with n == 0 default precision
-	if (tok->precision == -1 && !n)
+	if (!tok->has_prec && !n)
 	{
 		free(printed);
 		printed = ft_strdup("0");
@@ -82,18 +141,18 @@ int	d_printer(t_token *tok, int n)
 			return (-1);
 	}
 	//precision doesnt count sign space
-	if (tok->precision >= 0 && (size_t)tok->precision > ft_strlen(printed))
+	if (tok->has_prec && (size_t)tok->precision > ft_strlen(printed))
 	{
 		printed = pad_with_char(printed, tok->precision, '0', true);
 		if (!printed)
 			return (-1);
 	}
 	//need to treat '0' flag before the sign to not print "00-42"
-	if (tok->pad == '0' && tok->precision < 0)
+	if (tok->zero_flag)
 	{
-		if (n < 0 || tok->sign)
+		if (tok->sign)
 			(tok->width)--;
-		if (tok->width >= 0 && (size_t)tok->width > ft_strlen(printed))
+		if ((size_t)tok->width > ft_strlen(printed))
 		{
 			printed = pad_with_char(printed, tok->width, '0', true);
 			if (!printed)
@@ -101,24 +160,18 @@ int	d_printer(t_token *tok, int n)
 		}
 	}
 	//can add sign now
-	if (n < 0)
-	{
-		printed = pad_with_char(printed, ft_strlen(printed) + 1, '-', true);
-		if (!printed)
-			return (-1);
-	}
-	else if (tok->sign)
+	if (tok->sign)
 	{
 		printed = pad_with_char(printed, ft_strlen(printed) + 1, tok->sign, true);
 		if (!printed)
 			return (-1);
 	}
 	//can add width for non '0' flags
-	if (tok->width >= 0 && (size_t)tok->width > ft_strlen(printed))
+	if ((size_t)tok->width > ft_strlen(printed))
 	{
-			printed = pad_with_char(printed, tok->width, ' ', !(tok->pad == '-'));
-			if (!printed)
-				return (-1);
+		printed = pad_with_char(printed, tok->width, ' ', !(tok->minus_flag));
+		if (!printed)
+			return (-1);
 	}
 	ret_value = ft_strlen(printed);
 	ft_putstr_fd(printed, 1);
@@ -134,22 +187,22 @@ int	u_printer(t_token *tok, int n)
 	printed = itoa_base(n, BASE10, false);
 	if (!printed)
 		return (-1);
-	if (tok->precision == -1 && !n)
+	if (!tok->has_prec && !n)
 	{
 		free(printed);
 		printed = ft_strdup("0");
 		if (!printed)
 			return (-1);
 	}
-	if (tok->precision >= 0 && (size_t)tok->precision > ft_strlen(printed))
+	if (tok->has_prec && (size_t)tok->precision > ft_strlen(printed))
 	{
 		printed = pad_with_char(printed, tok->precision, '0', true);
 		if (!printed)
 			return (-1);
 	}
-	if (tok->width >= 0 && (size_t)tok->width > ft_strlen(printed))
+	if ((size_t)tok->width > ft_strlen(printed))
 	{
-		if (tok->pad == '0' && tok->precision < 0)
+		if (tok->zero_flag)
 		{
 			printed = pad_with_char(printed, tok->width, '0', true);
 			if (!printed)
@@ -157,7 +210,7 @@ int	u_printer(t_token *tok, int n)
 		}
 		else
 		{
-			printed = pad_with_char(printed, tok->width, ' ', !(tok->pad == '-'));
+			printed = pad_with_char(printed, tok->width, ' ', !(tok->minus_flag));
 			if (!printed)
 				return (-1);
 		}
@@ -185,7 +238,7 @@ int	xlo_printer(t_token *tok, int n)
 	printed = itoa_base(n, LOBASE16, false);
 	if (!printed)
 		return (-1);
-	if (tok->precision == -1 && !n)
+	if (tok->has_prec && !n)
 	{
 		free(printed);
 		printed = ft_strdup("0");

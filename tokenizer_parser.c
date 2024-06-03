@@ -6,11 +6,11 @@
 /*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:44:37 by parden            #+#    #+#             */
-/*   Updated: 2024/06/03 14:55:11 by parden           ###   ########.fr       */
+/*   Updated: 2024/06/03 18:50:13 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#include "ft_printf.h"
 
 size_t	free_token_strs(char **token_strs)
 {
@@ -109,11 +109,12 @@ static t_token	*new_token(const char token_spec)
 	if (!new)
 		return (NULL);
 	new->spec = token_spec;
-	new->pad = 0;
+	new->minus_flag = false;
+	new->zero_flag = false;
 	new->sign = 0;
-	new->prefix = 0;
+	new->prefix = false;
 	new->width = 0;
-	new->precision = -1;
+	new->has_prec = 0;
 
 	return (new);
 }
@@ -133,11 +134,14 @@ t_token	*parse_one(const char *token_str)
 	while (is_in(token_str[i], FLAGS))
 	{
 		if (token_str[i] == '#')
-			parsed_token->prefix = '#';
+			parsed_token->prefix = true;
 		if (token_str[i] == '-')
-			parsed_token->pad = '-';
-		if (token_str[i] == '0' && parsed_token->pad != '-')
-			parsed_token->pad = '0';
+		{
+			parsed_token->minus_flag = true;
+			parsed_token->zero_flag = false;
+		}
+		if (token_str[i] == '0' && !minus_flag)
+			parsed_token->zero_flag = true;
 		if (token_str[i] == '+')
 			parsed_token->sign = '+';
 		if (token_str[i] == ' ' && parsed_token->sign != '+')
@@ -148,8 +152,12 @@ t_token	*parse_one(const char *token_str)
 		parsed_token->width = ft_atoi(token_str + i);
 	while (ft_isdigit(token_str[i]))
 		i++;
-	if (token_str[i] == '.')
+	if (token_str[i] == '.' && token_str[i + 1] != '-')
+	{
+		parsed_token->has_prec = true;
 		parsed_token->precision = ft_atoi(token_str + i + 1);
+		tok->zero_flag = false;
+	}
 	return (parsed_token);
 }
 
