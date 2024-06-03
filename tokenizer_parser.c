@@ -6,7 +6,7 @@
 /*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:44:37 by parden            #+#    #+#             */
-/*   Updated: 2024/05/31 14:05:26 by parden           ###   ########.fr       */
+/*   Updated: 2024/06/03 14:55:11 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ t_token	*parse_one(const char *token_str)
 		parsed_token->width = ft_atoi(token_str + i);
 	while (ft_isdigit(token_str[i]))
 		i++;
-	if (token_str[i] == '.' && ft_isdigit(token_str[i + 1]))
+	if (token_str[i] == '.')
 		parsed_token->precision = ft_atoi(token_str + i + 1);
 	return (parsed_token);
 }

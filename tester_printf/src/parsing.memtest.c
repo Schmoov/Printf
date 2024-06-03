@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizer.memtest.c                                :+:      :+:    :+:   */
+/*   parsing.memtest.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: parden <parden@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 11:45:29 by parden            #+#    #+#             */
-/*   Updated: 2024/05/31 14:34:38 by parden           ###   ########.fr       */
+/*   Updated: 2024/06/03 14:53:41 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,5 +236,14 @@ Test(parse, with_flags)
 	cr_expect_eq(toks[8]->pad, '-');
 	cr_expect_eq(toks[8]->width, 7);
 	cr_expect_null(toks[9]);
+	free_token_list(toks);
+}
+
+Test(parse, just_a_dot_sets_precision_to_zero)
+{
+	t_token **toks = parse("%.d");
+	cr_expect_eq(toks[0]->spec, 'd');
+	cr_expect_eq(toks[0]->precision, 0);
+	cr_expect_null(toks[1]);
 	free_token_list(toks);
 }

@@ -6,7 +6,7 @@
 /*   By: parden <parden@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 10:40:38 by parden            #+#    #+#             */
-/*   Updated: 2024/05/31 16:36:21 by parden           ###   ########.fr       */
+/*   Updated: 2024/06/03 14:12:32 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,11 @@ char	*itoa_base(int n, char *base, bool is_signed)
 	long long	nb;
 
 	if (is_signed)
+	{
 		nb = n;
-	if (nb < 0)
-		nb = -nb;
+		if (nb < 0)
+			nb = -nb;
+	}
 	else
 		nb = (unsigned int)n;
 	return (wrap_itoa_base(nb, base));

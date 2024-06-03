@@ -6,10 +6,13 @@ int	main()
 	int a = 42;
 	int exp;
 	int res;
-	char *str = "%-7c%.3s%#0 -+12.7% %014p% 4d%++ +i|%u|%#x|%--00-0--07X";
-	res = ft_printf(str,'q',"WANNACRY",&res,INT_MAX,3958496,0,0,4969964);
+	char *str ="zeroes|%.d|%.0d|%.1d|"
+		"sign position for negative|%7.3d|%7d|%.7d|%07d|%07.3d|"
+		"positives|%+7.3d|%+7d|%+.7d|%+07d|%+07.3d|"
+		"left-justif|%7.3d|%7d|%.7d|%07d|%07.3d|%+7.3d|%+7d|%+.7d|%+07d|%+07.3d|";
+	res = ft_printf(str,0,0,0,-1,-1,-1,-1,-1,1,1,1,1,1,-1,-1,-1,-1,-1,1,1,1,1,1);
 	printf("\n");
-	printf(str,'q',"WANNACRY",&res,INT_MAX,3958496,0,0,4969964);
+	printf(str,0,0,0,-1,-1,-1,-1,-1,1,1,1,1,1,-1,-1,-1,-1,-1,1,1,1,1,1);
 
 /*
 	printf("\n\n|%0-12.5u|\nVS\n",42);

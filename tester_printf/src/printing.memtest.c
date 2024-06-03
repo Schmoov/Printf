@@ -137,3 +137,22 @@ Test(printing, a_bunch_of_flags)
 	cr_expect_stdout_eq_str(buffer);
 	cr_expect_eq(res, exp_res);
 }
+
+Test(printing, all_dspec_flag_edge_cases)
+{
+	int res = -69;
+	int exp_res;
+	char *str = "zeroes|%.d|%.0d|%.1d|"
+		"sign position for negative|%7.3d|%7d|%.7d|%07d|%07.3d|"
+		"positives|%+7.3d|%+7d|%+.7d|%+07d|%+07.3d|"
+		"left-justif|%7.3d|%7d|%.7d|%07d|%07.3d|%+7.3d|%+7d|%+.7d|%+07d|%+07.3d|";
+	char buffer[5000];
+
+	cr_redirect_stdout();
+	res = ft_printf(str,0,0,0,-1,-1,-1,-1,-1,1,1,1,1,1,-1,-1,-1,-1,-1,1,1,1,1,1);
+	fflush(stdout);
+	exp_res = sprintf(buffer,str,0,0,0,-1,-1,-1,-1,-1,1,1,1,1,1,-1,-1,-1,-1,-1,1,1,1,1,1);
+	cr_expect_stdout_eq_str(buffer);
+	cr_expect_eq(res, exp_res);
+}
+

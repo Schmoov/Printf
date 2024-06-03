@@ -1,24 +1,29 @@
 NAME := libftprintf.a
 
-CC := gcc
+CC := cc
 CFLAGS := -Wall -Wextra -Werror 
 
 SRCS := $(wildcard *.c) 
+SRCS_LIBFT := $(wildcard libft/*.c) 
 
-INCS := libftprintf.h libft/libft.h
-LIBFT := libft/libft.a
+INCS := ft_printf.h
 
 OBJ_DIR := .bin/
 OBJS := $(patsubst %.c, $(OBJ_DIR)%.o, $(SRCS))
+OBJS_LIBFT := $(patsubst libft/%.c, $(OBJ_DIR)%.o, $(SRCS_LIBFT))
 
 ###############################################################################
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(INCS)
+$(NAME): $(OBJS) $(OBJS_LIBFT) $(INCS)
 	ar rcs $@ $?
 
 $(OBJ_DIR)%.o: %.c
+	@ mkdir -p $(OBJ_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJ_DIR)%.o: libft/%.c
 	@ mkdir -p $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
