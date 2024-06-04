@@ -1,13 +1,14 @@
 #include <stdio.h>
-#include "../libftprintf.h"
+#include "../ft_printf.h"
 int ft_printf(const char *format, ...);
 int	main()
 {
-	int a = 42;
-	int exp;
-	int res;
-	char *str = "| %c %c %c | %c %c %c | %c %c %c |";
-	res = printf(str,'0',0,'1','2','1',0,0,'1','2');
+	int res = -69;
+	char *str = "n = % 05d in block x = %#-x\nAt address %-20p";
+
+	ft_printf(str,23456,4354976,&res);
+	printf("|\n");
+	printf(str,23456,4354976,&res);
 //	printf("\nici  \n");
 //	printf(str,'0',0,'1','2','1',0,0,'1','2');
 

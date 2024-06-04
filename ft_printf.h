@@ -6,7 +6,7 @@
 /*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:30:15 by parden            #+#    #+#             */
-/*   Updated: 2024/06/04 12:41:09 by parden           ###   ########.fr       */
+/*   Updated: 2024/06/04 14:29:32 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,10 @@ char    *ptrtoa_base(void *p, char *base);
 char    *str_filled_with_char(int len, char c);
 void	pad_with_char(char **toprint, int output_len, char c, bool leftpad);
 void	add_precision_zeroes(char **toprint, t_token *tok);
-void	add_width_zeroes(char **toprint, t_token *tok);
+void	add_width_zeroes(char **toprint, t_token *tok, int prefix_width);
 void	add_width_blanks(char **toprint, t_token *tok);
 void	add_sign(char **toprint, t_token *tok);
-void	add_base_prefix(char **toprint, char *prefix);
+void	add_base_prefix(char **toprint, t_token *tok, char *prefix);
 int		c_printer(t_token *tok, int n);
 int		d_printer(t_token *tok, int n);
 int		u_printer(t_token *tok, int n);

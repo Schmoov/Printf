@@ -6,7 +6,7 @@
 /*   By: parden <parden@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 11:45:29 by parden            #+#    #+#             */
-/*   Updated: 2024/06/04 12:12:22 by parden           ###   ########.fr       */
+/*   Updated: 2024/06/04 15:00:23 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,16 +190,16 @@ Test(parse, with_flags)
 
 	toks = parse("n = % 05d in block x = %#-x\nAt address %-12p");
 	cr_expect_eq(toks[0]->spec, 'd');
-	cr_expect_eq(toks[0]->pad, '0');
+	cr_expect(toks[0]->zero_flag);
 	cr_expect_eq(toks[0]->sign,' ');
 	cr_expect_eq(toks[0]->width, 5);
 
 	cr_expect_eq(toks[1]->spec, 'x');
-	cr_expect_eq(toks[1]->prefix, '#');
-	cr_expect_eq(toks[1]->pad, '-');
+	cr_expect(toks[1]->prefix);
+	cr_expect(toks[1]->minus_flag);
 
 	cr_expect_eq(toks[2]->spec, 'p');
-	cr_expect_eq(toks[2]->pad, '-');
+	cr_expect(toks[2]->minus_flag);
 	cr_expect_eq(toks[2]->width, 12);
 
 	cr_expect_null(toks[3]);
@@ -207,7 +207,7 @@ Test(parse, with_flags)
 
 	toks = parse("%-7c%.3s%#0 -+12.7% %014p% 4d%++ +i%u%#x%--00-0--07X");
 	cr_expect_eq(toks[0]->spec, 'c');
-	cr_expect_eq(toks[0]->pad, '-');
+	cr_expect_eq(toks[0]->minus_flag);
 	cr_expect_eq(toks[0]->width, 7);
 
 	cr_expect_eq(toks[1]->spec, 's');
@@ -216,13 +216,13 @@ Test(parse, with_flags)
 	cr_expect_eq(toks[2]->spec, '%');
 
 	cr_expect_eq(toks[3]->spec, 'p');
-	cr_expect_eq(toks[3]->pad, '0');
+	cr_expect(toks[3]->zero_flag);
 	cr_expect_eq(toks[3]->width, 14);
 
 	cr_expect_eq(toks[4]->spec, 'd');
 	cr_expect_eq(toks[4]->sign, ' ');
 	cr_expect_eq(toks[4]->width, 4);
-	cr_expect_eq(toks[4]->pad, 0);
+	cr_expect(toks[4]->zero_flag);
 
 	cr_expect_eq(toks[5]->spec, 'i');
 	cr_expect_eq(toks[5]->sign, '+');
@@ -230,10 +230,10 @@ Test(parse, with_flags)
 	cr_expect_eq(toks[6]->spec, 'u');
 
 	cr_expect_eq(toks[7]->spec, 'x');
-	cr_expect_eq(toks[7]->prefix, '#');
+	cr_expect(toks[7]->prefix);
 
 	cr_expect_eq(toks[8]->spec, 'X');
-	cr_expect_eq(toks[8]->pad, '-');
+	cr_expect(toks[8]->minus_flag);
 	cr_expect_eq(toks[8]->width, 7);
 	cr_expect_null(toks[9]);
 	free_token_list(toks);

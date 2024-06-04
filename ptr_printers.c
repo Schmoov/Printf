@@ -6,7 +6,7 @@
 /*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 16:05:52 by parden            #+#    #+#             */
-/*   Updated: 2024/06/04 12:43:26 by parden           ###   ########.fr       */
+/*   Updated: 2024/06/04 14:32:43 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	p_printer(t_token *tok, void *p)
 	if (p)
 	{
 		toprint = ptrtoa_base(p, LOBASE16);
-		add_base_prefix(&toprint, "0x");
+		add_base_prefix(&toprint, tok, "0x");
 	}
 	else
 		toprint = ft_strdup("(nil)");
