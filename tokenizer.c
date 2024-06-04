@@ -6,7 +6,7 @@
 /*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:44:37 by parden            #+#    #+#             */
-/*   Updated: 2024/06/04 18:03:07 by parden           ###   ########.fr       */
+/*   Updated: 2024/06/04 18:23:25 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ size_t	free_token_strs(char **token_strs)
 	return (0);
 }
 
-size_t	count_tokens(const char *s)
+size_t	count_tok(const char *s)
 {
 	size_t	count;
 	size_t	i;

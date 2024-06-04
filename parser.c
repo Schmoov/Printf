@@ -6,7 +6,7 @@
 /*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:44:37 by parden            #+#    #+#             */
-/*   Updated: 2024/06/04 18:03:49 by parden           ###   ########.fr       */
+/*   Updated: 2024/06/04 18:21:38 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,23 @@ static t_token	*new_token(const char token_spec)
 	return (new);
 }
 
+void	parse_char(char c, t_token *parsed_token)
+{
+	if (c == '#')
+		parsed_token->prefix = true;
+	if (c == '-')
+	{
+		parsed_token->minus_flag = true;
+		parsed_token->zero_flag = false;
+	}
+	if (c == '0' && !parsed_token->minus_flag)
+		parsed_token->zero_flag = true;
+	if (c == '+')
+		parsed_token->sign = '+';
+	if (c == ' ' && parsed_token->sign != '+')
+		parsed_token->sign = ' ';
+}
+
 t_token	*parse_one(const char *token_str)
 {
 	t_token	*parsed_token;
@@ -56,19 +73,7 @@ t_token	*parse_one(const char *token_str)
 	i = 0;
 	while (is_in(token_str[i], FLAGS))
 	{
-		if (token_str[i] == '#')
-			parsed_token->prefix = true;
-		if (token_str[i] == '-')
-		{
-			parsed_token->minus_flag = true;
-			parsed_token->zero_flag = false;
-		}
-		if (token_str[i] == '0' && !parsed_token->minus_flag)
-			parsed_token->zero_flag = true;
-		if (token_str[i] == '+')
-			parsed_token->sign = '+';
-		if (token_str[i] == ' ' && parsed_token->sign != '+')
-			parsed_token->sign = ' ';
+		parse_char(token_str[i], parsed_token);
 		i++;
 	}
 	if (token_str[i] != '.' && ft_atoi(token_str + i))
@@ -86,18 +91,14 @@ t_token	*parse_one(const char *token_str)
 
 t_token	**parse(const char *s)
 {
-	size_t	nb_tok;
 	char	**token_strs;
 	t_token	**token_list;
 	size_t	i;
 
-	nb_tok = count_tokens(s);
-	token_strs = (char **)ft_calloc((nb_tok + 1), sizeof(char *));
-	if (!token_strs)
+	token_strs = (char **)ft_calloc((count_tok(s) + 1), sizeof(char *));
+	if (!token_strs || !tokenize(token_strs, s))
 		return (NULL);
-	if (!tokenize(token_strs, s))
-		return (NULL);
-	token_list = (t_token **)ft_calloc((nb_tok + 1), sizeof(t_token *));
+	token_list = (t_token **)ft_calloc((count_tok(s) + 1), sizeof(t_token *));
 	if (!token_list)
 		return ((void *)free_token_strs(token_strs));
 	i = 0;

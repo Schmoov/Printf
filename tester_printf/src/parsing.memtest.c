@@ -6,7 +6,7 @@
 /*   By: parden <parden@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 11:45:29 by parden            #+#    #+#             */
-/*   Updated: 2024/06/04 15:02:15 by parden           ###   ########.fr       */
+/*   Updated: 2024/06/04 18:22:39 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,22 @@
 #include <stdio.h>
 #include "../ft_printf.h"
 
-Test(count_tokens, mandatory)
+Test(count_tok, mandatory)
 {
-	cr_expect_eq(count_tokens("I live sheltered by luxurious ifelse tree forests"), 0);
-	cr_expect_eq(count_tokens("n = %d in block x = %x\nAt address %p"), 3);
-	cr_expect_eq(count_tokens("%c%s%p%d%i%u%x%X"), 8);
-	cr_expect_eq(count_tokens("Qui pour %s le %s pos %%pos%%\nMerde %%%%pos%%%%\nUwU %d,%d\n"), 10);
-	cr_expect_eq(count_tokens("%%%d%%%u%%cs%%p%x%X%%"), 9);
-	cr_expect_eq(count_tokens(""), 0);
+	cr_expect_eq(count_tok("I live sheltered by luxurious ifelse tree forests"), 0);
+	cr_expect_eq(count_tok("n = %d in block x = %x\nAt address %p"), 3);
+	cr_expect_eq(count_tok("%c%s%p%d%i%u%x%X"), 8);
+	cr_expect_eq(count_tok("Qui pour %s le %s pos %%pos%%\nMerde %%%%pos%%%%\nUwU %d,%d\n"), 10);
+	cr_expect_eq(count_tok("%%%d%%%u%%cs%%p%x%X%%"), 9);
+	cr_expect_eq(count_tok(""), 0);
 }
 
 
-Test(count_tokens, with_flags)
+Test(count_tok, with_flags)
 {
-	cr_expect_eq(count_tokens("I l---ive 000sheltered by l4354uxuri000ous ifel###se tr#ee forests"), 0);
-	cr_expect_eq(count_tokens("n = % 05d in block x = %#-x\nAt address %-12p"), 3);
-	cr_expect_eq(count_tokens("%-7c%.3s%#0 -+12.7% %014p% 4d%++ +i%u%#x%--00-0--07X"), 9);
+	cr_expect_eq(count_tok("I l---ive 000sheltered by l4354uxuri000ous ifel###se tr#ee forests"), 0);
+	cr_expect_eq(count_tok("n = % 05d in block x = %#-x\nAt address %-12p"), 3);
+	cr_expect_eq(count_tok("%-7c%.3s%#0 -+12.7% %014p% 4d%++ +i%u%#x%--00-0--07X"), 9);
 }
 
 Test(tokenize, mandatory)
