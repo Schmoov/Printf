@@ -1,6 +1,6 @@
 #include <criterion/criterion.h>
 #include <stdio.h>
-#include "../libftprintf.h"
+#include "../ft_printf.h"
 
 void	itoa_tester(int n, char *base, bool is_signed, char *expected)
 {
@@ -22,14 +22,14 @@ void	ptrtoa_tester(void *p, char *base, char *expected)
 
 Test(itoa_base, base10)
 {
-	itoa_tester(0, BASE10, false, "");
+	itoa_tester(0, BASE10, false, "0");
 	itoa_tester(1, BASE10, false, "1");
 	itoa_tester(42, BASE10, false, "42");
 	itoa_tester(100, BASE10, false, "100");
 	itoa_tester(INT_MAX, BASE10, false, "2147483647");
 	itoa_tester(UINT_MAX, BASE10, false, "4294967295");
 
-	itoa_tester(0, BASE10, true, "");
+	itoa_tester(0, BASE10, true, "0");
 	itoa_tester(1, BASE10, true, "1");
 	itoa_tester(-1, BASE10, true, "1");
 	itoa_tester(42, BASE10, true, "42");
@@ -42,14 +42,14 @@ Test(itoa_base, base10)
 
 Test(itoa_base, base16)
 {
-	itoa_tester(0, UPBASE16, false, "");
+	itoa_tester(0, UPBASE16, false, "0");
 	itoa_tester(1, UPBASE16, false, "1");
 	itoa_tester(42, UPBASE16, false, "2A");
 	itoa_tester(256, UPBASE16, false, "100");
 	itoa_tester(INT_MAX, UPBASE16, false, "7FFFFFFF");
 	itoa_tester(UINT_MAX, UPBASE16, false, "FFFFFFFF");
 
-	itoa_tester(0, LOBASE16, false, "");
+	itoa_tester(0, LOBASE16, false, "0");
 	itoa_tester(1, LOBASE16, false, "1");
 	itoa_tester(42, LOBASE16, false, "2a");
 	itoa_tester(256, LOBASE16, false, "100");

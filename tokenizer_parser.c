@@ -6,7 +6,7 @@
 /*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:44:37 by parden            #+#    #+#             */
-/*   Updated: 2024/06/03 18:50:13 by parden           ###   ########.fr       */
+/*   Updated: 2024/06/04 12:44:52 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ t_token	*parse_one(const char *token_str)
 			parsed_token->minus_flag = true;
 			parsed_token->zero_flag = false;
 		}
-		if (token_str[i] == '0' && !minus_flag)
+		if (token_str[i] == '0' && !parsed_token->minus_flag)
 			parsed_token->zero_flag = true;
 		if (token_str[i] == '+')
 			parsed_token->sign = '+';
@@ -156,7 +156,7 @@ t_token	*parse_one(const char *token_str)
 	{
 		parsed_token->has_prec = true;
 		parsed_token->precision = ft_atoi(token_str + i + 1);
-		tok->zero_flag = false;
+		parsed_token->zero_flag = false;
 	}
 	return (parsed_token);
 }

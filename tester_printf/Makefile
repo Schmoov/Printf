@@ -4,11 +4,9 @@ CFLAGS := -Wall -Wextra -Werror
 SRC_DIR := src/
 SRCS := $(wildcard $(SRC_DIR)*.c)
 
-LIBFT := ../libft/libft.a
 LIBPRINTF := ../libftprintf.a
-MY_LIBS := $(LIBPRINTF) $(LIBFT)
 
-INCS := ../libftprintf.h ../libft/libft.h
+INCS := ../ft_printf.h ../libft/libft.h
 
 
 BIN_DIR := .bin/
@@ -28,13 +26,10 @@ ASAN_ENV := ASAN_OPTIONS=log_path=$(LOG_DIR):abort_on_error=1:allocator_may_retu
 
 all: test
 
-$(LIBFT):
-	make -C ../libft
-
 $(LIBPRINTF):
 	make -C ../
 
-test: $(MY_LIBS) $(OBJS) $(TSTS)
+test: $(LIBPRINTF) $(OBJS) $(TSTS)
 
 $(BIN_DIR)%.test.o: $(SRC_DIR)%.test.c $(INCS)
 	@ mkdir -p $(BIN_DIR)
@@ -46,13 +41,13 @@ $(BIN_DIR)%.memtest.o: $(SRC_DIR)%.memtest.c $(INCS)
 
 $(TST_DIR)%.test: $(BIN_DIR)%.test.o
 	@ mkdir -p $(TST_DIR)
-	$(CC) $(CFLAGS) $< $(MY_LIBS) $(CRIT) -lbsd -o $@
+	$(CC) $(CFLAGS) $< $(LIBPRINTF) $(CRIT) -lbsd -o $@
 	$(CRIT_ENV) ./$@
 
 $(TST_DIR)%.memtest: $(BIN_DIR)%.memtest.o
 	@ mkdir -p $(TST_DIR)
 	@ mkdir -p $(LOG_DIR)
-	$(CC) $(CFLAGS) $(ASAN) $< $(MY_LIBS) $(CRIT) -lbsd -o $@
+	$(CC) $(CFLAGS) $(ASAN) $< $(LIBPRINTF) $(CRIT) -lbsd -o $@
 	$(ASAN_ENV) $(CRIT_ENV) ./$@
 
 print-%  : ; @echo $* = $($*)

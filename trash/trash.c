@@ -3,5 +3,5 @@
 
 int main()
 {
-	printf("|%s|",(char *)NULL);
+	printf("|%+ u|",14);
 }

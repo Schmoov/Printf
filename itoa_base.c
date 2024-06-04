@@ -6,19 +6,20 @@
 /*   By: parden <parden@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 10:40:38 by parden            #+#    #+#             */
-/*   Updated: 2024/06/03 14:12:32 by parden           ###   ########.fr       */
+/*   Updated: 2024/06/04 12:54:50 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#include "ft_printf.h"
 
 //Output string will NOT have '-' character !!!
-//for n == 0 output is ""
 static size_t	count_char(long long n, size_t lbase)
 {
 	size_t	count;
 
 	count = 0;
+	if (!n)
+		return (1);
 	while (n)
 	{
 		count++;
@@ -39,6 +40,8 @@ static char	*wrap_itoa_base(long long n, char *base)
 	if (!res)
 		return (NULL);
 	res[len] = 0;
+	if (!n)
+		*res = '0';
 	while (n)
 	{
 		res[len - 1] = base[(n % lbase)];

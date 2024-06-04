@@ -6,13 +6,13 @@
 /*   By: parden <parden@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 11:45:29 by parden            #+#    #+#             */
-/*   Updated: 2024/06/03 14:53:41 by parden           ###   ########.fr       */
+/*   Updated: 2024/06/04 12:12:22 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <criterion/criterion.h>
 #include <stdio.h>
-#include "../libftprintf.h"
+#include "../ft_printf.h"
 
 Test(count_tokens, mandatory)
 {

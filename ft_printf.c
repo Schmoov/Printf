@@ -6,12 +6,11 @@
 /*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:59:49 by parden            #+#    #+#             */
-/*   Updated: 2024/06/01 17:42:58 by parden           ###   ########.fr       */
+/*   Updated: 2024/06/04 12:14:01 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
-#include <stdarg.h>
+#include "ft_printf.h"
 
 void	skip_past_token(char **s)
 {

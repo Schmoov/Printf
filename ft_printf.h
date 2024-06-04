@@ -6,7 +6,7 @@
 /*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:30:15 by parden            #+#    #+#             */
-/*   Updated: 2024/06/03 18:50:05 by parden           ###   ########.fr       */
+/*   Updated: 2024/06/04 12:41:09 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,12 @@ t_token **parse(const char *s);
 char    *itoa_base(int n, char *base, bool is_signed);
 char    *ptrtoa_base(void *p, char *base);
 char    *str_filled_with_char(int len, char c);
-char    *pad_with_char(char *suffix, int output_len, char c, bool leftpad);
-char	*add_prefix(char *suffix, char *prefix);
+void	pad_with_char(char **toprint, int output_len, char c, bool leftpad);
+void	add_precision_zeroes(char **toprint, t_token *tok);
+void	add_width_zeroes(char **toprint, t_token *tok);
+void	add_width_blanks(char **toprint, t_token *tok);
+void	add_sign(char **toprint, t_token *tok);
+void	add_base_prefix(char **toprint, char *prefix);
 int		c_printer(t_token *tok, int n);
 int		d_printer(t_token *tok, int n);
 int		u_printer(t_token *tok, int n);

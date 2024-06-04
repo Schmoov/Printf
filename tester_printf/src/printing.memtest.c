@@ -1,7 +1,7 @@
 #include <criterion/criterion.h>
 #include <criterion/redirect.h>
 #include <stdio.h>
-#include "../libftprintf.h"
+#include "../ft_printf.h"
 
 Test(metatest, a)
 {
