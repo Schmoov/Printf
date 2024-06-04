@@ -6,7 +6,7 @@
 /*   By: parden <parden@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 11:45:29 by parden            #+#    #+#             */
-/*   Updated: 2024/06/04 15:00:23 by parden           ###   ########.fr       */
+/*   Updated: 2024/06/04 15:02:15 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,7 +207,7 @@ Test(parse, with_flags)
 
 	toks = parse("%-7c%.3s%#0 -+12.7% %014p% 4d%++ +i%u%#x%--00-0--07X");
 	cr_expect_eq(toks[0]->spec, 'c');
-	cr_expect_eq(toks[0]->minus_flag);
+	cr_expect(toks[0]->minus_flag);
 	cr_expect_eq(toks[0]->width, 7);
 
 	cr_expect_eq(toks[1]->spec, 's');
@@ -222,7 +222,6 @@ Test(parse, with_flags)
 	cr_expect_eq(toks[4]->spec, 'd');
 	cr_expect_eq(toks[4]->sign, ' ');
 	cr_expect_eq(toks[4]->width, 4);
-	cr_expect(toks[4]->zero_flag);
 
 	cr_expect_eq(toks[5]->spec, 'i');
 	cr_expect_eq(toks[5]->sign, '+');

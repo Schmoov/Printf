@@ -6,7 +6,7 @@
 /*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 13:07:25 by parden            #+#    #+#             */
-/*   Updated: 2024/06/04 14:49:58 by parden           ###   ########.fr       */
+/*   Updated: 2024/06/04 15:34:39 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	c_printer(t_token *tok, int n)
 
 void	add_precision_zeroes(char **toprint, t_token *tok)
 {
-	if (*toprint)
+	if (!*toprint)
 		return;
 	if (tok->has_prec && (size_t)tok->precision > ft_strlen(*toprint))
 		pad_with_char(toprint, tok->precision, '0', true);
@@ -77,7 +77,7 @@ void	add_precision_zeroes(char **toprint, t_token *tok)
 
 void	add_width_zeroes(char **toprint, t_token *tok, int prefix_width)
 {
-	if (*toprint)
+	if (!*toprint)
 		return;
 	if (tok->zero_flag)
 	{
@@ -89,7 +89,7 @@ void	add_width_zeroes(char **toprint, t_token *tok, int prefix_width)
 
 void	add_sign(char **toprint, t_token *tok)
 {
-	if (*toprint)
+	if (!*toprint)
 		return;
 	if (tok->sign)
 		pad_with_char(toprint, ft_strlen(*toprint) + 1, tok->sign, true);
@@ -97,7 +97,7 @@ void	add_sign(char **toprint, t_token *tok)
 
 void	add_width_blanks(char **toprint, t_token *tok)
 {
-	if (*toprint)
+	if (!*toprint)
 		return;
 	if (!tok->zero_flag && tok->width >= 0 && (size_t)tok->width > ft_strlen(*toprint))
 		pad_with_char(toprint, tok->width, ' ', !(tok->minus_flag));
@@ -107,7 +107,7 @@ void	add_base_prefix(char **toprint, t_token *tok, char *prefix)
 {
 	char *res;
 
-	if (*toprint || (tok->spec != 'p' && !tok->prefix))
+	if (!*toprint || (tok->spec != 'p' && !tok->prefix))
 		return;
 	res = ft_strjoin(prefix, *toprint);
 	free(*toprint);
@@ -168,7 +168,8 @@ int	xlo_printer(t_token *tok, int n)
 		toprint = itoa_base(n, LOBASE16, false);
 	add_precision_zeroes(&toprint, tok);
 	add_width_zeroes(&toprint, tok, 2 * tok->prefix);
-	add_base_prefix(&toprint, tok, "0x");
+	if (n)
+		add_base_prefix(&toprint, tok, "0x");
 	add_width_blanks(&toprint, tok);
 	if (!toprint)
 		return (-1);
@@ -189,7 +190,8 @@ int	xup_printer(t_token *tok, int n)
 		toprint = itoa_base(n, UPBASE16, false);
 	add_precision_zeroes(&toprint, tok);
 	add_width_zeroes(&toprint, tok, 2 * tok->prefix);
-	add_base_prefix(&toprint, tok, "0X");
+	if (n)
+		add_base_prefix(&toprint, tok, "0X");
 	add_width_blanks(&toprint, tok);
 	if (!toprint)
 		return (-1);
