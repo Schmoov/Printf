@@ -6,49 +6,15 @@
 /*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 13:07:25 by parden            #+#    #+#             */
-/*   Updated: 2024/06/04 15:34:39 by parden           ###   ########.fr       */
+/*   Updated: 2024/06/04 17:59:19 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-char	*str_filled_with_char(int len, char c)
-{
-	char	*res;
-
-	res = (char *)malloc(len + 1);
-	if (!res)
-		return (NULL);
-	ft_memset(res, c, len);
-	res[len] = 0;
-	return (res);
-}
-
-void	pad_with_char(char **toprint, int output_len, char c, bool leftpad)
-{
-	char	*prefix;
-	char	*res;
-
-	if (!*toprint)
-		return;
-	prefix = str_filled_with_char(output_len - ft_strlen(*toprint), c);
-	if (!prefix)
-	{
-		free(*toprint);
-		return;
-	}
-	if (leftpad)
-		res = ft_strjoin(prefix, *toprint);
-	else
-		res = ft_strjoin(*toprint, prefix);
-	free(*toprint);
-	free(prefix);
-	*toprint = res;
-}
-
 int	c_printer(t_token *tok, int n)
 {
-	int count;
+	int	count;
 
 	count = 1;
 	while (!tok->minus_flag && tok->width > 1)
@@ -65,53 +31,6 @@ int	c_printer(t_token *tok, int n)
 		count++;
 	}
 	return (count);
-}
-
-void	add_precision_zeroes(char **toprint, t_token *tok)
-{
-	if (!*toprint)
-		return;
-	if (tok->has_prec && (size_t)tok->precision > ft_strlen(*toprint))
-		pad_with_char(toprint, tok->precision, '0', true);
-}
-
-void	add_width_zeroes(char **toprint, t_token *tok, int prefix_width)
-{
-	if (!*toprint)
-		return;
-	if (tok->zero_flag)
-	{
-		tok->width -= prefix_width;
-		if (tok->width >= 0 && (size_t)tok->width > ft_strlen(*toprint))
-			pad_with_char(toprint, tok->width, '0', true);
-	}
-}
-
-void	add_sign(char **toprint, t_token *tok)
-{
-	if (!*toprint)
-		return;
-	if (tok->sign)
-		pad_with_char(toprint, ft_strlen(*toprint) + 1, tok->sign, true);
-}
-
-void	add_width_blanks(char **toprint, t_token *tok)
-{
-	if (!*toprint)
-		return;
-	if (!tok->zero_flag && tok->width >= 0 && (size_t)tok->width > ft_strlen(*toprint))
-		pad_with_char(toprint, tok->width, ' ', !(tok->minus_flag));
-}
-
-void	add_base_prefix(char **toprint, t_token *tok, char *prefix)
-{
-	char *res;
-
-	if (!*toprint || (tok->spec != 'p' && !tok->prefix))
-		return;
-	res = ft_strjoin(prefix, *toprint);
-	free(*toprint);
-	*toprint = res;
 }
 
 int	d_printer(t_token *tok, int n)

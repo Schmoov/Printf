@@ -1,91 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizer_parser.c                                 :+:      :+:    :+:   */
+/*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:44:37 by parden            #+#    #+#             */
-/*   Updated: 2024/06/04 12:44:52 by parden           ###   ########.fr       */
+/*   Updated: 2024/06/04 18:03:49 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
-size_t	free_token_strs(char **token_strs)
-{
-	size_t	i;
-
-	i = 0;
-	while (token_strs[i])
-	{
-		free(token_strs[i]);
-		i++;
-	}
-	free(token_strs);
-	return (0);
-}
-
-size_t	count_tokens(const char *s)
-{
-	size_t	count;
-	size_t	i;
-
-	count = 0;
-	i = 0;
-	while (s[i])
-	{
-		while (s[i] && s[i] != '%')
-			i++;
-		if (s[i])
-		{
-			count++;
-			i++;
-		}
-		while (s[i] && !is_in(s[i], SPECIFIERS))
-			i++;
-		if (s[i])
-			i++;
-	}
-	return (count);
-}
-
-static size_t	insert_token(char **token_strs, const char *s, size_t start)
-{
-	size_t	len;
-	
-	len = 0;
-	while (!is_in(s[start + len], SPECIFIERS))
-			len++;
-	len++;
-	*token_strs = ft_substr(s, start, len);
-	if (!*token_strs)
-		return (0);
-	return (start + len);
-}
-
-//A token_str excludes '%' and includes the specifier
-int	tokenize(char **token_strs, const char *s)
-{
-	size_t	i_s;
-	size_t	i_token_strs;
-
-	i_s = 0;
-	i_token_strs = 0;
-	while (s[i_s])
-	{
-		while (s[i_s] && s[i_s] != '%')
-			i_s++;
-		if (s[i_s])
-		{
-			i_s = insert_token(token_strs + i_token_strs, s, i_s + 1);
-			if (!i_s)
-				return (free_token_strs(token_strs));
-			i_token_strs++;
-		}
-	}
-	return (1);
-}
 
 void	*free_token_list(t_token **token_list)
 {
@@ -115,14 +40,12 @@ static t_token	*new_token(const char token_spec)
 	new->prefix = false;
 	new->width = 0;
 	new->has_prec = 0;
-
 	return (new);
 }
 
-
 t_token	*parse_one(const char *token_str)
 {
-	t_token *parsed_token;
+	t_token	*parsed_token;
 	size_t	token_len;
 	size_t	i;
 

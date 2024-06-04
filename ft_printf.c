@@ -6,51 +6,20 @@
 /*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:59:49 by parden            #+#    #+#             */
-/*   Updated: 2024/06/04 12:14:01 by parden           ###   ########.fr       */
+/*   Updated: 2024/06/04 17:46:13 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	skip_past_token(char **s)
-{
-	if (!**s)
-		return;
-	(*s)++;
-	while (**s && !is_in(**s, SPECIFIERS))
-		(*s)++;
-	if(**s)
-		(*s)++;
-}
-
-static int print_until_percent(char **s)
-{
-	int	i;
-
-	i = 0;
-	while ((*s)[i] && (*s)[i] != '%')
-		i++;
-	write(1, *s, i);
-	*s = *s + i;
-	skip_past_token(s);
-	return (i);
-}
-
-int percent_printer(void)
-{
-	write(1, "%", 1);
-	return (1);
-}
-
-static int ptr_dispatcher(t_token *tok, void *p)
+static int	ptr_dispatcher(t_token *tok, void *p)
 {
 	if (tok->spec == 's')
 		return (s_printer(tok, p));
 	return (p_printer(tok, p));
 }
-	
 
-static int int_dispatcher(t_token *tok, int n)
+static int	int_dispatcher(t_token *tok, int n)
 {
 	if (tok->spec == 'i' || tok->spec == 'd')
 		return (d_printer(tok, n));
@@ -63,32 +32,44 @@ static int int_dispatcher(t_token *tok, int n)
 	return (c_printer(tok, n));
 }
 
+static int	wrap_ft_printf(char *s, va_list args, t_token **token_list)
+{
+	size_t	i;
+	int		count;
+	int		to_add;
+
+	count = 0;
+	i = 0;
+	to_add = 0;
+	while (to_add != -1 && token_list[i])
+	{
+		count += to_add + print_until_percent(&s);
+		if (token_list[i]->spec == '%')
+			to_add = percent_printer();
+		else if (token_list[i]->spec == 's' || token_list[i]->spec == 'p')
+			to_add = ptr_dispatcher(token_list[i], va_arg(args, void *));
+		else
+			to_add = int_dispatcher(token_list[i], va_arg(args, int));
+		i++;
+	}
+	if (to_add == -1)
+		return (-1);
+	count += to_add + print_until_percent(&s);
+	return (count);
+}
+
 int	ft_printf(const char *format, ...)
 {
 	va_list	args;
-	t_token	**token_list;
 	char	*s;
-	size_t	i;
+	t_token	**token_list;
 	int		count;
 
-	s = (char *)format;
-	count = 0;
-	i = 0;
 	va_start(args, format);
+	s = (char *)format;
 	token_list = parse(format);
-	while (token_list[i])
-	{
-		count += print_until_percent(&s);
-		if (token_list[i]->spec == '%')
-			count += percent_printer();
-		else if (token_list[i]->spec == 's' || token_list[i]->spec == 'p')
-			count += ptr_dispatcher(token_list[i], va_arg(args, void *));
-		else
-			count += int_dispatcher(token_list[i], va_arg(args, int));
-		i++;
-	}
-	count += print_until_percent(&s);
-	free_token_list(token_list);
+	count = wrap_ft_printf(s, args, token_list);
 	va_end(args);
+	free_token_list(token_list);
 	return (count);
 }

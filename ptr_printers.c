@@ -6,13 +6,13 @@
 /*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 16:05:52 by parden            #+#    #+#             */
-/*   Updated: 2024/06/04 14:32:43 by parden           ###   ########.fr       */
+/*   Updated: 2024/06/04 17:59:41 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static void cap_strlen(char *s, int cap)
+static void	cap_strlen(char *s, int cap)
 {
 	while (cap && *s)
 	{
