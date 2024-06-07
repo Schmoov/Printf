@@ -6,20 +6,33 @@
 /*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 16:05:52 by parden            #+#    #+#             */
-/*   Updated: 2024/06/04 17:59:41 by parden           ###   ########.fr       */
+/*   Updated: 2024/06/05 14:37:51 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static void	cap_strlen(char *s, int cap)
+static char	*cap_strlen(void *p, t_token *tok)
 {
-	while (cap && *s)
+	char	*s;
+	int		cap;
+	int		i;
+
+	i = 0;
+	cap = INT_MAX;
+	s = p;
+	if (tok->has_prec)
+		cap = tok->precision;
+	while (cap && s[i])
 	{
-		s++;
+		i++;
 		cap--;
 	}
-	*s = 0;
+	s = (char *)malloc(i + 1);
+	if (!s)
+		return (NULL);
+	s[i] = 0;
+	return ((char *)ft_memcpy((void *)s, p, i));
 }
 
 int	s_printer(t_token *tok, void *p)
@@ -27,14 +40,12 @@ int	s_printer(t_token *tok, void *p)
 	char	*toprint;
 	int		ret_value;
 
-	if (p)
-		toprint = ft_strdup((char *)p);
-	else if (!tok->has_prec || tok->precision > 5)
+	if (!p && (!tok->has_prec || tok->precision > 5))
 		toprint = ft_strdup("(null)");
-	else
+	else if (!p)
 		toprint = ft_strdup("");
-	if (p && tok->has_prec)
-		cap_strlen(toprint, tok->precision);
+	else
+		toprint = cap_strlen(p, tok);
 	add_width_blanks(&toprint, tok);
 	if (!toprint)
 		return (-1);

@@ -6,7 +6,7 @@
 /*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 13:07:25 by parden            #+#    #+#             */
-/*   Updated: 2024/06/04 17:57:35 by parden           ###   ########.fr       */
+/*   Updated: 2024/06/05 14:11:15 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	pad_with_char(char **toprint, int output_len, char c, bool leftpad)
 	if (!prefix)
 	{
 		free(*toprint);
+		*toprint = NULL;
 		return ;
 	}
 	if (leftpad)

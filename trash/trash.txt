@@ -1,2 +1,0 @@
-zeroes|||0|sign position for negative|-1|-1|-1|-1|-1|positives|+1|+1|+1|+1|+1|left-justif|-1|-1|-1|-1|-1|+1|+1|+1|+1|+1|           
-          zeroes|||0|sign position for negative|   -001|     -1|-0000001|-000001|   -001|positives|   +001|     +1|+0000001|+000001|   +001|left-justif|-001   |-1     |-0000001|-1     |-001   |+001   |+1     |+0000001|+1     |+001   |

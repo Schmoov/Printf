@@ -184,3 +184,18 @@ Test(printing, francinette_str_NULL)
 	cr_expect_eq(res, exp_res);
 }
 
+Test(printing, 3edgy5me)
+{
+	int res = -69;
+	int exp_res;
+	char *str = "This fucker -> %#04x|%04X|%04p";
+	char buffer[100];
+
+	cr_redirect_stdout();
+	res = ft_printf(str, 0, 0, (void *)0);
+	fflush(stdout);
+	exp_res = sprintf(buffer,str, 0, 0, (void *)0);
+	cr_expect_stdout_eq_str(buffer);
+	cr_expect_eq(res, exp_res);
+}
+

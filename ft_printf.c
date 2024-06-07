@@ -6,7 +6,7 @@
 /*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:59:49 by parden            #+#    #+#             */
-/*   Updated: 2024/06/04 17:46:13 by parden           ###   ########.fr       */
+/*   Updated: 2024/06/05 14:45:04 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,13 @@ int	ft_printf(const char *format, ...)
 	t_token	**token_list;
 	int		count;
 
+	if (!format)
+		return (-1);
 	va_start(args, format);
 	s = (char *)format;
 	token_list = parse(format);
+	if (!token_list)
+		return (-1);
 	count = wrap_ft_printf(s, args, token_list);
 	va_end(args);
 	free_token_list(token_list);

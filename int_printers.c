@@ -6,7 +6,7 @@
 /*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 13:07:25 by parden            #+#    #+#             */
-/*   Updated: 2024/06/04 17:59:19 by parden           ###   ########.fr       */
+/*   Updated: 2024/06/07 12:23:39 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	xlo_printer(t_token *tok, int n)
 	else
 		toprint = itoa_base(n, LOBASE16, false);
 	add_precision_zeroes(&toprint, tok);
-	add_width_zeroes(&toprint, tok, 2 * tok->prefix);
+	add_width_zeroes(&toprint, tok, 2 * tok->prefix * !!n);
 	if (n)
 		add_base_prefix(&toprint, tok, "0x");
 	add_width_blanks(&toprint, tok);
@@ -108,7 +108,7 @@ int	xup_printer(t_token *tok, int n)
 	else
 		toprint = itoa_base(n, UPBASE16, false);
 	add_precision_zeroes(&toprint, tok);
-	add_width_zeroes(&toprint, tok, 2 * tok->prefix);
+	add_width_zeroes(&toprint, tok, 2 * tok->prefix * !!n);
 	if (n)
 		add_base_prefix(&toprint, tok, "0X");
 	add_width_blanks(&toprint, tok);
